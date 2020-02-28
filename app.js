@@ -1,6 +1,6 @@
 const request = require('request')
 
-const url = 'https://strawpoll.me/api/v2/polls/19458348'
+const url = 'https://strawpoll.me/api/v2/polls/19458604'
 
 request({url:url,json:true},(err,res)=>{
     const data = res.body
