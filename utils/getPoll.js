@@ -3,16 +3,16 @@ const request = require('request')
 const getPoll = (id,callback)=>{
     const url = 'https://www.strawpoll.me/api/v2/polls/'+encodeURIComponent(id)
     
-    request({url:url,json:true},(err,res)=>{
+    request({url,json:true},(err,{body})=>{
         if(err) {
             callback('Unable to connect to service')
-        } else if(!res.body) {
+        } else if(!body) {
             callback('Could not find poll ID')
         } else {
             callback(undefined,{
-                title:res.body.title,
-                options:res.body.options,
-                votes:res.body.votes
+                title:body.title,
+                options:body.options,
+                votes:body.votes
             })
         }
     })    

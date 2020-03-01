@@ -6,12 +6,12 @@ if(!id){
     return console.log('Please provide a poll ID')
 }
 // 19458348
-getPoll(id,(err,data)=>{
+getPoll(id,(err,{title,options,votes})=>{
     if(err){
         return console.log(err)
     }
-    console.log(data.title)
-    for(var i = 0; i < data.options.length; i++) {
-        console.log('Votes for ' + data.options[i] + ': ' + data.votes[i])
+    console.log(title)
+    for(var i = 0; i < options.length; i++) {
+        console.log('Votes for ' + options[i] + ': ' + votes[i])
     }
 })
