@@ -1,11 +1,15 @@
+const path = require('path')
 const request = require('request')
 const getPoll = require('../utils/getPoll')
 const express = require('express')
 
 const app = express()
+const publicDirectoryPath = path.join(__dirname,'../public')
+
+app.use(express.static(publicDirectoryPath))
 
 app.get('',(req,res)=>{
-    res.send('<h1>Welcome to AnonVote!</h1>')
+    
 })
 
 app.listen(3000, ()=>{
