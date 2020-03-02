@@ -1,11 +1,17 @@
 const request = require('request')
+const getPoll = require('./utils/getPoll')
 
-const url = 'https://strawpoll.me/api/v2/polls/19458584'
-
-request({url:url,json:true},(err,res)=>{
-    const data = res.body
-    console.log(data.title)
-    for(var i = 0; i < data.options.length; i++) {
-        console.log('Votes for ' + data.options[i] + ': ' + data.votes[i])
+const id = process.argv[2]
+if(!id){
+    return console.log('Please provide a poll ID')
+}
+// 19458348
+getPoll(id,(err,{title,options,votes})=>{
+    if(err){
+        return console.log(err)
+    }
+    console.log(title)
+    for(var i = 0; i < options.length; i++) {
+        console.log('Votes for ' + options[i] + ': ' + votes[i])
     }
 })
