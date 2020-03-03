@@ -1,6 +1,6 @@
 const path = require('path')
 const request = require('request')
-const getPoll = require('../utils/getPoll')
+const getPoll = require('./utils/getPoll')
 const express = require('express')
 const hbs = require('hbs')
 
@@ -22,6 +22,26 @@ app.use(express.static(publicDirectoryPath))
 app.get('',(req,res)=>{
     res.render('index',{
         title:'Welcome to AnonVote!'
+    })
+})
+app.get('/vote',(req,res)=>{
+
+    if(!req.query.id){
+        return res.send({
+            error:'Must provide a poll ID.'
+        })
+    }
+    getPoll(req.query.id,(error,{title,options,votes})=>{
+        if(error){
+            return res.send({
+                error
+            })
+        }
+        return res.send({
+            title,
+            options,
+            votes
+        })
     })
 })
 
