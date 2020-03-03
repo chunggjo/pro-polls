@@ -27,18 +27,14 @@ app.get('',(req,res)=>{
 app.get('/vote',(req,res)=>{
 
     if(!req.query.id){
-        return res.send({
-            error:'Must provide a poll ID.'
-        })
+        return res.send({error:'Must provide a poll ID.'})
     }
     getPoll(req.query.id,(error,{title,options,votes})=>{
         if(error){
-            return res.send({
-                error
-            })
+            return res.send({error})
         }
         return res.send({
-            title,
+            pollName:title,
             options,
             votes
         })
