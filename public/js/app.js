@@ -6,14 +6,15 @@ const message = document.querySelector('#message')
 pollIdForm.addEventListener('submit',(e)=>{
     e.preventDefault()
 
-    const id = search.value
+    const id=search.value
 
-    message.pollName = ''
-    message.textContent = 'Loading...'
+    message.pollName=''
+    message.textContent='Loading...'
     $('#votes').empty()
     fetch('http://localhost:3000/vote?id='+id).then((res)=>{
         res.json().then((data)=>{
             if(data.error){
+                message.pollName=''
                 message.textContent=data.error
             } else {
                 pollName.textContent=data.pollName
