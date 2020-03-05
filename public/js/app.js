@@ -4,27 +4,29 @@ const search = document.querySelector('input')
 const pollName = document.querySelector('#pollName')
 const message = document.querySelector('#message')
 
+let id = ''
+// Get poll data and create form
 pollIdForm.addEventListener('submit',(e)=>{
     e.preventDefault()
 
-    const id=search.value
+    id = search.value
 
-    message.pollName=''
-    message.textContent='Loading...'
+    message.pollName = ''
+    message.textContent = 'Loading...'
     $('#options').empty()
     fetch('http://localhost:3000/vote?id='+id).then((res)=>{
         res.json().then((data)=>{
             if(data.error){
-                message.pollName=''
-                message.textContent=data.error
+                message.pollName = ''
+                message.textContent = data.error
                 $('#vote').hide();
             } else {
-                pollName.textContent=data.pollName
-                message.textContent=''
-                if(!data.multi) { // If poll does not allow multiple options to be voted on
-                    createRadioButtons(data)
+                pollName.textContent = data.pollName
+                message.textContent = ''
+                if(!data.multi) { // Multiple poll answers
+                    radioButtons(data)
                 } else {
-                    createCheckboxes(data)
+                    checkboxes(data)
                 }
                 
                 $('#vote').show();
@@ -33,6 +35,7 @@ pollIdForm.addEventListener('submit',(e)=>{
     })
 })
 
+// Vote on poll
 voteForm.addEventListener('submit',(e)=>{
     e.preventDefault()
 
@@ -43,11 +46,13 @@ voteForm.addEventListener('submit',(e)=>{
             selected.push(options[i].value)
         }
     }
-    console.log(selected)
 
+    console.log(selected)
+    // TODO: Create database and let user vote
 })
 
-const createCheckboxes = (data)=>{
+
+const checkboxes = (data)=>{
     for(let i = 0; i < data.options.length; i++) {
         $('#options').append('<input type="checkbox" id=option'+(i+1)+' name="option" value="'+(i+1)+'">')
         .append('<label for="option'+(i+1)+'">'+data.options[i]+' - '+data.votes[i]+' votes</label><br>')
@@ -55,7 +60,7 @@ const createCheckboxes = (data)=>{
 }
 
 
-const createRadioButtons = (data)=>{
+const radioButtons = (data)=>{
     for(let i = 0; i < data.options.length; i++) {
         $('#options').append('<input type="radio" id=option'+(i+1)+' name="option" value="'+(i+1)+'">')
         .append('<label for="option'+(i+1)+'">'+data.options[i]+' - '+data.votes[i]+' votes</label><br>')
