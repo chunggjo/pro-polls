@@ -8,15 +8,20 @@
     {{>header}}
     <p>Enter poll ID to get started.</p>
         
-    <form>
+    <form id="getPollForm">
         <input placeholder="Poll ID">
         <button>Go</button>
     </form>
     <h1 id="pollName"></h1>
     <p id="message"></p>
-    <ul id="votes">
-        
-    </ul>
+    <form id="voteForm">
+        <div id="options">
+            
+        </div>
+        <div>
+            <button id="vote" hidden=true>Vote</button>
+        </div>
+    </form>
     <script src="/js/app.js"></script>
 </body>
 </html>
