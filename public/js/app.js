@@ -11,13 +11,13 @@ pollIdForm.addEventListener('submit',(e)=>{
 
     id = search.value
 
-    message.pollName = ''
+    pollName.textContent = ''
     message.textContent = 'Loading...'
     $('#options').empty()
     fetch('http://localhost:3000/vote?id='+id).then((res)=>{
         res.json().then((data)=>{
             if(data.error){
-                message.pollName = ''
+                pollName.textContent = ''
                 message.textContent = data.error
                 $('#vote').hide();
             } else {
