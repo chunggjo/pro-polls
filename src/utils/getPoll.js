@@ -12,7 +12,8 @@ const getPoll = (id,callback)=>{
             callback(undefined,{
                 title:body.title,
                 options:body.options,
-                votes:body.votes
+                votes:body.votes,
+                multi:body.multi
             })
         }
     })    
