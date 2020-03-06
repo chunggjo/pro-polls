@@ -3,6 +3,7 @@ const request = require('request')
 const getPoll = require('./utils/getPoll')
 const express = require('express')
 const hbs = require('hbs')
+//const getIP = require('./utils/getIP')
 
 const app = express()
 
@@ -23,6 +24,13 @@ app.get('',(req,res)=>{
     res.render('index',{
         title:'Welcome to AnonVote!'
     })
+    // getIP(ip, (error, ip) => {
+    //     if(error) {
+    //         return console.log(error + 'Hello')
+    //     }
+    //     console.log(ip)
+    // })
+
 })
 app.get('/vote',(req,res)=>{
 
