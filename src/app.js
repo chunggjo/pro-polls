@@ -29,14 +29,15 @@ app.get('/vote',(req,res)=>{
     if(!req.query.id){
         return res.send({error:'Must provide a poll ID.'})
     }
-    getPoll(req.query.id,(error,{title,options,votes})=>{
+    getPoll(req.query.id,(error,{title,options,votes,multi}={})=>{
         if(error){
             return res.send({error})
         }
         return res.send({
             pollName:title,
             options,
-            votes
+            votes,
+            multi
         })
     })
 })
@@ -51,17 +52,4 @@ app.get('*',(req,res)=>{
 app.listen(3000, ()=>{
     console.log('Server up on port 3000')
 })
-// const id = process.argv[2]
-// if(!id){
-//     return console.log('Please provide a poll ID')
-// }
-// // 19458348
-// getPoll(id,(err,{title,options,votes})=>{
-//     if(err){
-//         return console.log(err)
-//     }
-//     console.log(title)
-//     for(var i = 0; i < options.length; i++) {
-//         console.log('Votes for ' + options[i] + ': ' + votes[i])
-//     }
-// })
+

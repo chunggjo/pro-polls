@@ -2,9 +2,26 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/styles.css">
-    <script src="/js/app.js"></script>
+    <script src='/js/jquery-3.4.1.min.js'></script>
 </head>
 <body>
     {{>header}}
+    <p>Enter poll ID to get started.</p>
+        
+    <form id="getPollForm">
+        <input placeholder="Poll ID">
+        <button>Go</button>
+    </form>
+    <h1 id="pollName"></h1>
+    <p id="message"></p>
+    <form id="voteForm">
+        <div id="options">
+            
+        </div>
+        <div>
+            <button id="vote" hidden=true>Vote</button>
+        </div>
+    </form>
+    <script src="/js/app.js"></script>
 </body>
 </html>
