@@ -12,9 +12,6 @@ const publicDirectoryPath = path.join(__dirname, '../public')
 const viewsPath = path.join(__dirname, '../templates/views')
 const partialsPath = path.join(__dirname, '../templates/partials')
 
-
-
-
 const MongoClient = mongodb.MongoClient //Accesss for CRUD
 const ObjectID = mongodb.ObjectID
 
@@ -51,19 +48,10 @@ app.get('/vote', (req, res) => {
 	})
 })
 
-<<<<<<< HEAD
 app.get('/create', (req, res) => {
 	res.render('create', {
 		title: 'Create your poll'
 	})
-=======
-
-app.get('*',(req,res)=>{
-    res.render('404',{
-        title:'404',
-        errorMessage:'Page not found'
-    })
->>>>>>> b5ff5c3399b71ecbef0a73280bde24e7e68ba823
 })
 
 app.get('/about', (req, res) => {
