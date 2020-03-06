@@ -14,9 +14,27 @@
         {{>header}}
         <main role="main" class="inner cover">
             {{!-- Start of app code --}}
+            <p class="lead">Enter your poll information.</p>
+            <form action="submit">
+                <input class="rounded-input form-control" placeholder=" Poll Title">
+                <br>
+                <input class="form-check-input" id="multButton" type="checkbox" value="multi">
+                <label for="multButton">Allow multiple answers?</label>
+                <br>
+                <label for="input-1">Placeholder input label</label>
+                <input class="rounded-input form-control" id="input-1" type="text">
+                <br>
+                <label for="input-1">Placeholder input label</label>
+                <input class="rounded-input form-control" id="input-1" type="text">
+                <br>
+                <button class="btn btn-secondary">+</button>
+                <br>
+                <br>
+                <button class="btn btn-secondary">Create poll</button>
+
+            </form>
             <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et sem feugiat, pharetra
-                purus vel, molestie ipsum. Morbi at elit sem. Integer nec velit non lorem facilisis dignissim. Fusce
-                egestas, dui sit amet aliquet dapibus.</p>
+                purus vel, molestie ipsum.</p>
 
             {{!-- End of app code --}}
 

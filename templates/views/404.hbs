@@ -1,11 +1,33 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <link rel="stylesheet" href="/css/styles.css">
-    <script src="/js/app.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/cover/">
+    <link rel="stylesheet" href="/css/cover.css">
+    <title>About</title>
 </head>
-<body>
-    {{>header}}
-    {{errorMessage}}
+
+<body class="text-center">
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+        {{>header}}
+        <main role="main" class="inner cover">
+            {{!-- Start of app code --}}
+
+            {{!-- End of app code --}}
+            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et sem feugiat, pharetra
+                purus vel, molestie ipsum. Morbi at elit sem. Integer nec velit non lorem facilisis dignissim. Fusce
+                egestas, dui sit amet aliquet dapibus.</p>
+            {{errorMessage}}
+        </main>
+        {{>footer}}
+    </div>
+
+    <script src='/js/jquery-3.4.1.min.js'></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/app.js"></script>
 </body>
+
 </html>

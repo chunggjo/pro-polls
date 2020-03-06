@@ -47,6 +47,12 @@ app.get('/create', (req, res) => {
 	})
 })
 
+app.get('/about', (req, res) => {
+	res.render('about', {
+		title: 'About Us'
+	})
+})
+
 app.get('*', (req, res) => {
 	res.render('404', {
 		title: '404',
