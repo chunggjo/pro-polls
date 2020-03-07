@@ -3,7 +3,6 @@ const request = require('request')
 const getPoll = require('./utils/getPoll')
 const express = require('express')
 const hbs = require('hbs')
-const mongodb = require('mongodb')
 
 const app = express()
 
@@ -11,15 +10,6 @@ const app = express()
 const publicDirectoryPath = path.join(__dirname,'../public')
 const viewsPath = path.join(__dirname,'../templates/views')
 const partialsPath = path.join(__dirname,'../templates/partials')
-
-
-
-
-const MongoClient = mongodb.MongoClient //Accesss for CRUD
-const ObjectID = mongodb.ObjectID
-
-const connectionURL = 'mongodb://127.0.0.1:61539' //localhost is not good with this
-const databaseName = 'votes'
 
 // Setup handlebars engine and views location
 app.set('view engine','hbs')
