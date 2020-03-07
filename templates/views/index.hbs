@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/cover.css">
 </head>
 
-<body class="text-center">
+<body class="text-center" onload="$('#vote').hide()">
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
         {{>header}}
         <main role="main" class="inner cover">
@@ -24,7 +24,7 @@
 
                 </div>
                 <div>
-                    <button id="vote" hidden=true>Vote</button>
+                    <button id="vote">Vote</button>
                 </div>
             </form>
 
