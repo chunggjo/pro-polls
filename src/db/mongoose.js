@@ -12,10 +12,30 @@ const connection = mongoose.createConnection('mongodb://127.0.0.1:27017/anon-vot
 autoIncrement.initialize(connection)
 
 const pollSchema = new Schema({
-    title:String,
-    options:[String],
-    votes:[Number],
-    multi:Boolean
+    title:{
+        type:String,
+        required:true,
+        trim:true
+    },
+    options:{
+        type:[String],
+        validate(value){
+            if(value.length<2){
+                throw new Error('Options must have length of 2 or greater.')
+            }
+            for(var i=0; i<value.length; i++){
+                if(value[i].length==0){
+                    throw new Error('Options must be filled out.')
+                }
+            }
+        }
+    },
+    votes:{
+        type:[Number]
+    },
+    multi:{
+        type:Boolean
+    }
 })
 
 pollSchema.plugin(autoIncrement.plugin,{model:'Poll',field:'id'})
@@ -30,7 +50,7 @@ const poll1 = new Poll({
 
 const poll2 = new Poll({
     title:'Hot or cold?',
-    options:['Hot','Cold'],
+    options:['  Hot','Cold'],
     votes:[0,0],
     multi:false
 })
