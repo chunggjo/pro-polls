@@ -1,11 +1,11 @@
 const path = require('path')
 const request = require('request')
-const getPoll = require('./utils/getPoll')
 const express = require('express')
 const hbs = require('hbs')
-const mongodb = require('mongodb')
+const getPoll = require('./utils/getPoll')
 
 const app = express()
+const port = process.env.PORT || 3000
 
 // Define paths for Express config
 const publicDirectoryPath = path.join(__dirname, '../public')

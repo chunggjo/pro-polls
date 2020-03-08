@@ -9,7 +9,7 @@
     <title>AnonVote</title>
 </head>
 
-<body class="text-center">
+<body class="text-center" onload="$('#vote').hide()">
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
         {{>header}}
         <main role="main" class="inner cover">
@@ -27,7 +27,7 @@
 
                 </div>
                 <div>
-                    <button id="vote" hidden=true>Vote</button>
+                    <button id="vote">Vote</button>
                 </div>
             </form>
             {{!-- End of app code --}}
@@ -41,7 +41,7 @@
     <script src='/js/jquery-3.4.1.min.js'></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="/js/popper.min.js"></script>
-    <script src="/js/client.js"></script>
+    <script src="/js/app.js"></script>
 </body>
 
 </html>
