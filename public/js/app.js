@@ -1,34 +1,42 @@
-const pollIdForm = document.querySelector('#getPollForm')
+// Forms
+const getPollForm = document.querySelector('#getPollForm')
 const voteForm = document.querySelector('#voteForm')
+
+// Search box
 const search = document.querySelector('input')
-const pollName = document.querySelector('#pollName')
-const message = document.querySelector('#message')
+
+// Dynamic text content
+const pollTitle = document.querySelector('#pollName')
+const statusMessage = document.querySelector('#message')
 
 let id = ''
+
 // Get poll data and create form
-pollIdForm.addEventListener('submit',(e)=>{
+getPollForm.addEventListener('submit',(e)=>{
     e.preventDefault()
 
     id = search.value
 
-    pollName.textContent = ''
-    message.textContent = 'Loading...'
+    pollTitle.textContent = ''
+    statusMessage.textContent = 'Loading...'
+
+    // Empty options div
     $('#options').empty()
+
     fetch('http://localhost:3000/vote?id='+id).then((res)=>{
         res.json().then((data)=>{
             if(data.error){
-                pollName.textContent = ''
-                message.textContent = data.error
+                pollTitle.textContent = ''
+                statusMessage.textContent = data.error
                 $('#vote').hide();
             } else {
-                pollName.textContent = data.pollName
-                message.textContent = ''
-                if(!data.multi) { // Multiple poll answers
+                pollTitle.textContent = data.pollName
+                statusMessage.textContent = ''
+                if(!data.multi) { // Check if poll doesn't allow multiple answers
                     radioButtons(data)
                 } else {
                     checkboxes(data)
                 }
-                
                 $('#vote').show();
             }
         })
@@ -38,9 +46,11 @@ pollIdForm.addEventListener('submit',(e)=>{
 // Vote on poll
 voteForm.addEventListener('submit',(e)=>{
     e.preventDefault()
-    message.textContent = ''
+    statusMessage.textContent = ''
+
     let options = document.getElementsByName('option')
     let selected = []
+
     for(let i = 0; i < options.length; i++) {
         if(options[i].checked) {
             selected.push(options[i].value)
@@ -48,7 +58,7 @@ voteForm.addEventListener('submit',(e)=>{
     }
 
     if(selected.length===0){
-        return message.textContent = 'Please select an option'
+        return statusMessage.textContent = 'Please select an option'
     }
 
     console.log(selected)
