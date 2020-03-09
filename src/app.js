@@ -1,10 +1,8 @@
 const path = require('path')
-const request = require('request')
 const express = require('express')
 require('./db/mongoose')
 const Poll = require('./models/poll')
 const hbs = require('hbs')
-const getPoll = require('./utils/getPoll')
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -23,14 +21,16 @@ hbs.registerPartials(partialsPath)
 app.use(express.static(publicDirectoryPath))
 app.use(express.json())
 
+// Home page
 app.get('',(req,res)=>{
     res.render('index',{
         title:'Welcome to AnonVote!'
     })
 })
 
+// Create poll
 app.post('/polls',async(req,res)=>{
-    const poll = new Poll(req.body)
+    var poll = new Poll(req.body)
 
     poll.save().then(()=>{
         res.send(poll)
@@ -39,40 +39,46 @@ app.post('/polls',async(req,res)=>{
     })
 })
 
+// Get poll
 app.get('/polls/:id',async(req,res)=>{
-    const pollID = req.params.id
 
     try {
-        const poll = await Poll.findOne({id:pollID})
+        var poll = await Poll.findOne({id:req.params.id})
 
         if(!poll){
             return res.status(404).send()
         }
 
-        res.send(poll)
+        // res.send(poll)
+        res.render('poll',{
+            title:'Vote',
+            pollTitle:poll.title
+        })
     }catch(e){
         res.status(500).send()
     }
 })
 
-// app.get('/vote',(req,res)=>{
+// Vote
+app.patch('/polls/:id',async(req,res)=>{
+    var keys = Object.keys(req.body), key = keys[0];
 
-//     if(!req.query.id){
-//         return res.send({error:'Must provide a poll ID.'})
-//     }
-//     getPoll(req.query.id,(error,{title,options,votes,multi}={})=>{
-//         if(error){
-//             return res.send({error})
-//         }
-//         return res.send({
-//             pollTitle:title,
-//             options,
-//             votes,
-//             multi
-//         })
-//     })
-// })
+    if (keys.length !== 1 || key !== "votes") {
+        return res.status(400).send({error:'Invalid update'})
+    }
 
+    try {
+        var poll = await Poll.findOneAndUpdate(req.params.id,req.body)
+        if(!poll){
+            return res.status(404).send()
+        }
+    
+        res.send(poll)
+    } catch(e) {
+        res.status(400).send(e)
+    }
+
+})
 
 app.get('*',(req,res)=>{
     res.render('404',{
