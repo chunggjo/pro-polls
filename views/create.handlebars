@@ -1,7 +1,7 @@
 <form>
     <div>
         <label for="pollTitle">Title</label>
-        <input type="text" name="pollTitle">
+        <input type="text" name="pollTitle" id="pollTitle">
     </div>
     <div id="options">
         <div id='1'>
@@ -13,7 +13,9 @@
             <input type="text" class="option" name="option-2">
         </div>
     </div>
+    <button id='create'>Create</button>
 </form>
+<p id="message"></p>
 <div>
     <button id="addOption">+</button>
     <button id="removeOption">-</button>
