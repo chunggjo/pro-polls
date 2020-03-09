@@ -1,6 +1,8 @@
 const path = require('path')
 const request = require('request')
 const express = require('express')
+require('./db/mongoose')
+const Poll = require('./models/poll')
 const hbs = require('hbs')
 const getPoll = require('./utils/getPoll')
 
@@ -19,10 +21,21 @@ hbs.registerPartials(partialsPath)
 
 // Setup static directory to serve
 app.use(express.static(publicDirectoryPath))
+app.use(express.json())
 
 app.get('',(req,res)=>{
     res.render('index',{
         title:'Welcome to AnonVote!'
+    })
+})
+
+app.post('/polls',(req,res)=>{
+    const poll = new Poll(req.body)
+
+    poll.save().then(()=>{
+        res.send(poll)
+    }).catch((e)=>{
+        res.status(400).send(e)
     })
 })
 
