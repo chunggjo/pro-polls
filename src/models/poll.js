@@ -8,28 +8,17 @@ const PollSchema = new Schema({
         required:true,
         trim:true
     },
-    options:{
-        type:[String],
-        required:true,
-        validate(value){
-            if(value.length<2){
-                throw new Error('Options must have length of 2 or greater.')
-            }
-            for(var i=0; i<value.length; i++){
-                if(value[i].length==0){
-                    throw new Error('Options must be filled out.')
-                }
-            }
+    options:[{
+        option:{
+            type:String,
+            required:true,
+            trim:true
+        },
+        votes:{
+            type:Number,
+            required:true
         }
-    },
-    votes:{
-        type:[Number],
-        required:true
-    },
-    multi:{
-        type:Boolean,
-        required:true
-    }
+    }]
 })
 
 PollSchema.plugin(AutoIncrement,{inc_field:'id'})
