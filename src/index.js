@@ -29,7 +29,7 @@ app.get('',(req,res)=>{
     })
 })
 
-app.post('/polls',(req,res)=>{
+app.post('/polls',async(req,res)=>{
     const poll = new Poll(req.body)
 
     poll.save().then(()=>{
@@ -39,23 +39,39 @@ app.post('/polls',(req,res)=>{
     })
 })
 
-app.get('/vote',(req,res)=>{
+app.get('/polls/:id',async(req,res)=>{
+    const pollID = req.params.id
 
-    if(!req.query.id){
-        return res.send({error:'Must provide a poll ID.'})
-    }
-    getPoll(req.query.id,(error,{title,options,votes,multi}={})=>{
-        if(error){
-            return res.send({error})
+    try {
+        const poll = await Poll.findOne({id:pollID})
+
+        if(!poll){
+            return res.status(404).send()
         }
-        return res.send({
-            pollTitle:title,
-            options,
-            votes,
-            multi
-        })
-    })
+
+        res.send(poll)
+    }catch(e){
+        res.status(500).send()
+    }
 })
+
+// app.get('/vote',(req,res)=>{
+
+//     if(!req.query.id){
+//         return res.send({error:'Must provide a poll ID.'})
+//     }
+//     getPoll(req.query.id,(error,{title,options,votes,multi}={})=>{
+//         if(error){
+//             return res.send({error})
+//         }
+//         return res.send({
+//             pollTitle:title,
+//             options,
+//             votes,
+//             multi
+//         })
+//     })
+// })
 
 
 app.get('*',(req,res)=>{

@@ -20,25 +20,25 @@ getPollForm.addEventListener('submit',(e)=>{
     pollTitle.textContent = ''
     statusMessage.textContent = 'Loading...'
 
-    // Empty options div
     $('#options').empty()
 
-    fetch('http://localhost:3000/vote?id='+id).then((res)=>{
-        res.json().then((data)=>{
-            if(data.error){
-                pollTitle.textContent = ''
-                statusMessage.textContent = data.error
-                $('#vote').hide();
+    fetch('http://localhost:3000/polls/'+id).then((response)=>{
+        if(response.status === 404) {
+            pollTitle.textContent = ''
+            statusMessage.textContent = 'Poll not found'
+            $('#vote').hide();
+            return;
+        }
+        response.json().then((data)=>{
+            pollTitle.textContent = data.title
+            statusMessage.textContent = ''
+            if(!data.multi) { // Check if poll doesn't allow multiple answers
+                radioButtons(data)
             } else {
-                pollTitle.textContent = data.pollName
-                statusMessage.textContent = ''
-                if(!data.multi) { // Check if poll doesn't allow multiple answers
-                    radioButtons(data)
-                } else {
-                    checkboxes(data)
-                }
-                $('#vote').show();
+                checkboxes(data)
             }
+            $('#vote').show();
+            
         })
     })
 })
