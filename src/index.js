@@ -1,10 +1,8 @@
 const path = require('path')
-const request = require('request')
 const express = require('express')
 require('./db/mongoose')
 const Poll = require('./models/poll')
 const hbs = require('hbs')
-const getPoll = require('./utils/getPoll')
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -29,30 +27,6 @@ app.get('', (req, res) => {
 	})
 })
 
-<<<<<<< HEAD
-app.get('/vote', (req, res) => {
-	if (!req.query.id) {
-		return res.send({ error: 'Must provide a poll ID.' })
-	}
-	getPoll(req.query.id, (error, { title, options, votes, multi } = {}) => {
-		if (error) {
-			return res.send({ error })
-		}
-		return res.send({
-			pollTitle: title,
-			options,
-			votes,
-			multi
-		})
-	})
-})
-
-app.get('/create', (req, res) => {
-	res.render('create', {
-		title: 'Create your poll!'
-	})
-})
-=======
 app.post('/polls',async(req,res)=>{
     const poll = new Poll(req.body)
 
@@ -97,7 +71,6 @@ app.get('/polls/:id',async(req,res)=>{
 //     })
 // })
 
->>>>>>> 2e1fac66a68d581f1b04e91eaf480b3fe3cf10f2
 
 app.get('/about', (req, res) => {
 	res.render('about', {
