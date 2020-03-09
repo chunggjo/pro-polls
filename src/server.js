@@ -31,7 +31,7 @@ app.get('/create',(req,res)=>{
     })
 })
 
-app.post('/polls',async(req,res)=>{
+app.post('/create',async(req,res)=>{
     var poll = new Poll(req.body)
 
     poll.save().then(()=>{
@@ -50,7 +50,6 @@ app.get('/polls/:id',async(req,res)=>{
             return res.status(404).send()
         }
 
-        // res.send(poll)
         res.render('poll',{
             pageTitle:'AnonVote - Vote',
             headerText:'Vote!',
@@ -62,14 +61,11 @@ app.get('/polls/:id',async(req,res)=>{
 })
 
 app.patch('/polls/:id',async(req,res)=>{
-    var keys = Object.keys(req.body), key = keys[0];
-
-    if (keys.length !== 1 || key !== "votes") {
-        return res.status(400).send({error:'Invalid update'})
-    }
-
     try {
-        var poll = await Poll.findOneAndUpdate(req.params.id,req.body)
+        var poll = await Poll.findOne({id: req.params.id}).updateOne({'options.option': req.body.option}, {$inc: {
+            'options.$.votes': 1
+        }})
+
         if(!poll){
             return res.status(404).send()
         }
