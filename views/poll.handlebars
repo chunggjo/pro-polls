@@ -1,4 +1,12 @@
 <h2>{{pollTitle}}</h2>
-<div id="options">
-
-</div>
+<form>
+    <div>
+        {{#radioButtons options}}
+            
+        {{/radioButtons}}
+        <div>
+            <button id="voteButton">Vote</button>
+        </div>
+    </div>
+</form>
+<script src=/js/vote.js></script>

@@ -9,9 +9,25 @@ const port = process.env.PORT || 3000
 
 const publicDirectoryPath = path.join(__dirname,'../public')
 
-app.engine('handlebars',expbs({
-    defaultLayout:'main'
-}))
+const hbs = expbs.create({
+    defaultLayout:'main',
+    helpers:{
+        radioButtons: function(value){
+            var out = ''
+            for(var i = 0; i < value.length; i++){
+                var option = value[i].option
+                var votes = value[i].votes
+                out+='<div>'
+                out+='<input type="radio" name="option" value="'+option+'">'
+                out+='<label for="'+option+'">'+option+' - '+votes+' votes</label>'
+                out+='</div>'
+            }
+            return out
+        }
+    }
+
+})
+app.engine('handlebars',hbs.engine)
 app.set('view engine','handlebars')
 
 app.use(express.static(publicDirectoryPath))
@@ -53,7 +69,8 @@ app.get('/polls/:id',async(req,res)=>{
         res.render('poll',{
             pageTitle:'AnonVote - Vote',
             headerText:'Vote!',
-            pollTitle:poll.title
+            pollTitle:poll.title,
+            options:poll.options
         })
     }catch(e){
         res.status(500).send()
