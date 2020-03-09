@@ -18,11 +18,7 @@ const PollSchema = new Schema({
             type:Number,
             required:true
         }
-    }],
-    multi:{
-        type:Boolean,
-        required:true
-    }
+    }]
 })
 
 PollSchema.plugin(AutoIncrement,{inc_field:'id'})
