@@ -3,14 +3,6 @@ const pollForm = document.querySelector('form')
 // const voteForm = document.querySelector('#voteForm')
 
 
-
-
-
-
-
-
-
-
 const search = document.querySelector('input')
 
 // const pollTitle = document.querySelector('#pollName')
@@ -21,7 +13,7 @@ pollForm.addEventListener('submit',(e)=>{
 
     const id = search.value
 
-    window.location.href = 'http://localhost:3000/polls/'+id
+    window.location.href = '/polls/'+id
     // getPoll()
 })
 
