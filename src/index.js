@@ -1,6 +1,8 @@
 const path = require('path')
 const request = require('request')
 const express = require('express')
+require('./db/mongoose')
+const Poll = require('./models/poll')
 const hbs = require('hbs')
 const getPoll = require('./utils/getPoll')
 
@@ -19,6 +21,7 @@ hbs.registerPartials(partialsPath)
 
 // Setup static directory to serve
 app.use(express.static(publicDirectoryPath))
+app.use(express.json())
 
 app.get('', (req, res) => {
 	res.render('index', {
@@ -26,6 +29,7 @@ app.get('', (req, res) => {
 	})
 })
 
+<<<<<<< HEAD
 app.get('/vote', (req, res) => {
 	if (!req.query.id) {
 		return res.send({ error: 'Must provide a poll ID.' })
@@ -48,6 +52,52 @@ app.get('/create', (req, res) => {
 		title: 'Create your poll!'
 	})
 })
+=======
+app.post('/polls',async(req,res)=>{
+    const poll = new Poll(req.body)
+
+    poll.save().then(()=>{
+        res.send(poll)
+    }).catch((e)=>{
+        res.status(400).send(e)
+    })
+})
+
+app.get('/polls/:id',async(req,res)=>{
+    const pollID = req.params.id
+
+    try {
+        const poll = await Poll.findOne({id:pollID})
+
+        if(!poll){
+            return res.status(404).send()
+        }
+
+        res.send(poll)
+    }catch(e){
+        res.status(500).send()
+    }
+})
+
+// app.get('/vote',(req,res)=>{
+
+//     if(!req.query.id){
+//         return res.send({error:'Must provide a poll ID.'})
+//     }
+//     getPoll(req.query.id,(error,{title,options,votes,multi}={})=>{
+//         if(error){
+//             return res.send({error})
+//         }
+//         return res.send({
+//             pollTitle:title,
+//             options,
+//             votes,
+//             multi
+//         })
+//     })
+// })
+
+>>>>>>> 2e1fac66a68d581f1b04e91eaf480b3fe3cf10f2
 
 app.get('/about', (req, res) => {
 	res.render('about', {
