@@ -4,15 +4,15 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js -e hbs,js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js -e handlebars,js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "hbs": "^4.1.0",
+    "express-handlebars": "^3.1.0",
     "mongodb": "^3.5.4",
     "mongoose": "^5.9.3",
     "mongoose-sequence": "^5.2.2"

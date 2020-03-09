@@ -1,34 +1,36 @@
 const path = require('path')
 const express = require('express')
+const expbs = require('express-handlebars')
+const app = express()
 require('./db/mongoose')
 const Poll = require('./models/poll')
-const hbs = require('hbs')
 
-const app = express()
 const port = process.env.PORT || 3000
 
-// Define paths for Express config
 const publicDirectoryPath = path.join(__dirname,'../public')
-const viewsPath = path.join(__dirname,'../templates/views')
-const partialsPath = path.join(__dirname,'../templates/partials')
 
-// Setup handlebars engine and views location
-app.set('view engine','hbs')
-app.set('views',viewsPath)
-hbs.registerPartials(partialsPath)
+app.engine('handlebars',expbs({
+    defaultLayout:'main'
+}))
+app.set('view engine','handlebars')
 
-// Setup static directory to serve
 app.use(express.static(publicDirectoryPath))
 app.use(express.json())
 
-// Home page
-app.get('',(req,res)=>{
+app.get('/',(req,res)=>{
     res.render('index',{
-        title:'Welcome to AnonVote!'
+        pageTitle:'AnonVote - Home',
+        headerText:'Welcome to AnonVote!'
     })
 })
 
-// Create poll
+app.get('/create',(req,res)=>{
+    res.render('create',{
+        pageTitle:'AnonVote - Create',
+        headerText:'Create a Poll'
+    })
+})
+
 app.post('/polls',async(req,res)=>{
     var poll = new Poll(req.body)
 
@@ -39,7 +41,6 @@ app.post('/polls',async(req,res)=>{
     })
 })
 
-// Get poll
 app.get('/polls/:id',async(req,res)=>{
 
     try {
@@ -51,7 +52,8 @@ app.get('/polls/:id',async(req,res)=>{
 
         // res.send(poll)
         res.render('poll',{
-            title:'Vote',
+            pageTitle:'AnonVote - Vote',
+            headerText:'Vote!',
             pollTitle:poll.title
         })
     }catch(e){
@@ -59,7 +61,6 @@ app.get('/polls/:id',async(req,res)=>{
     }
 })
 
-// Vote
 app.patch('/polls/:id',async(req,res)=>{
     var keys = Object.keys(req.body), key = keys[0];
 
@@ -82,8 +83,8 @@ app.patch('/polls/:id',async(req,res)=>{
 
 app.get('*',(req,res)=>{
     res.render('404',{
-        title:'404',
-        errorMessage:'Page not found'
+        pageTitle:'AnonVote - Page not found',
+        headerText:'404 - Page not found'
     })
 })
 
