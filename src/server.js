@@ -66,13 +66,6 @@ app.post('/create',async(req,res)=>{
 
 app.get('/polls/:id',async(req,res)=>{
     try {
-        if(!Number.isInteger(req.params.id)){
-            return res.status(404).render('404',{
-                pageTitle:'AnonVote - Poll not found',
-                headerText:'404 - Poll not found'
-            })
-        }
-
         const poll = await Poll.findOne({id:req.params.id})
 
         if(!poll){
