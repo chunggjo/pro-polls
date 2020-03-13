@@ -4,6 +4,8 @@ const expbs = require('express-handlebars')
 const app = express()
 require('./db/mongoose')
 const Poll = require('./models/poll')
+const requestIp = require('request-ip')
+const bcrypt = require('bcryptjs')
 
 const port = process.env.PORT || 8080
 
@@ -30,11 +32,12 @@ const hbs = expbs.create({
 app.engine('handlebars',hbs.engine)
 app.set('view engine','handlebars')
 
+app.use(requestIp.mw())
 app.use(express.static(publicDirectoryPath))
 app.use(express.json())
 
+
 app.get('/',(req,res)=>{
-    myFunction(req)
     res.render('index',{
         pageTitle:'AnonVote - Home',
         headerText:'Welcome to AnonVote!'
@@ -84,15 +87,19 @@ app.get('/polls/:id',async(req,res)=>{
 
 app.patch('/polls/:id',async(req,res)=>{
     try {
+        
         var poll = await Poll.findOne({id: req.params.id})
+        
+        // Check ip for possible duplicate vote
+        var clientIp = req.clientIp
+        var hashedIp = await bcrypt.hash(clientIp,8)
+        // TODO: If ip exists then return 404 else add hashedIp to poll
+        poll.voters.push(hashedIp)
+        
         var option = poll.options.find(o => o.option === req.body.option)
         option.votes+=1
-        
-        await poll.save()
 
-        // var poll = await Poll.findOne({id: req.params.id}).updateOne({'options.option': req.body.option}, {$inc: {
-        //     'options.$.votes': 1
-        // }})
+        await poll.save()
 
         if(!poll){
             return res.status(404).send()
@@ -115,17 +122,3 @@ app.get('*',(req,res)=>{
 app.listen(port, ()=>{
     console.log('Server is up on port ' + port)
 })
-
-const bcrypt = require('bcryptjs')
-const requestIp = require('request-ip')
-
-const myFunction = async(req)=>{
-    const clientIp = requestIp.getClientIp(req)
-    const hashedIp = await bcrypt.hash(clientIp, 8)
-
-    console.log(clientIp)
-    console.log(hashedIp)
-
-    const isMatch = await bcrypt.compare("::1", hashedIp)
-    console.log(isMatch)
-}

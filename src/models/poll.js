@@ -25,15 +25,6 @@ const PollSchema = new Schema({
     }
 })
 
-PollSchema.pre('save',async function(next){
-    const poll = this
-
-    console.log('from middleware')
-    // encrypt ip
-
-    next()
-})
-
 PollSchema.plugin(AutoIncrement,{inc_field:'id'})
 const Poll = mongoose.model('Poll',PollSchema)
 

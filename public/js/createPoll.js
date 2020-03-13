@@ -22,7 +22,8 @@ createForm.addEventListener('submit',(e)=>{
 
     formData = {
         "title":title,
-        "options":optionObjects
+        "options":optionObjects,
+        "voters":[]
     }
 
     fetch(window.location.href,{
