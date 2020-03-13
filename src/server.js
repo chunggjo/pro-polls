@@ -5,7 +5,6 @@ const app = express()
 require('./db/mongoose')
 const Poll = require('./models/poll')
 const requestIp = require('request-ip')
-const bcrypt = require('bcryptjs')
 
 const port = process.env.PORT || 8080
 
@@ -89,13 +88,6 @@ app.patch('/polls/:id',async(req,res)=>{
     try {
         
         var poll = await Poll.findOne({id: req.params.id})
-        
-        // Check ip for possible duplicate vote
-        var clientIp = req.clientIp
-        var hashedIp = await bcrypt.hash(clientIp,8)
-        // TODO: If ip exists then return 404 else add hashedIp to poll
-        poll.voters.push(hashedIp)
-        
         var option = poll.options.find(o => o.option === req.body.option)
         option.votes+=1
 
