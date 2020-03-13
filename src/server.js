@@ -1,20 +1,20 @@
 const path = require('path')
 const express = require('express')
-const expbs = require('express-handlebars')
 const app = express()
+const expbs = require('express-handlebars')
 require('./db/mongoose')
 const Poll = require('./models/poll')
 const requestIp = require('request-ip')
 const ip = require('ip')
 
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 3000
 
 const publicDirectoryPath = path.join(__dirname,'../public')
 
 const hbs = expbs.create({
     defaultLayout:'main',
     helpers:{
-        radioButtons: function(value){
+        createPollForm: function(value){
             var out = ''
             for(var i = 0; i < value.length; i++){
                 var option = value[i].option
@@ -27,15 +27,14 @@ const hbs = expbs.create({
             return out
         }
     }
-
 })
 app.engine('handlebars',hbs.engine)
 app.set('view engine','handlebars')
 
-app.use(requestIp.mw())
 app.use(express.static(publicDirectoryPath))
 app.use(express.json())
 
+app.use(requestIp.mw())
 
 app.get('/',(req,res)=>{
     res.render('index',{
@@ -52,7 +51,7 @@ app.get('/create',(req,res)=>{
 })
 
 app.post('/create',async(req,res)=>{
-    var poll = new Poll(req.body)
+    const poll = new Poll(req.body)
 
     poll.save().then(()=>{
         res.status(201).send({
@@ -66,9 +65,16 @@ app.post('/create',async(req,res)=>{
 })
 
 app.get('/polls/:id',async(req,res)=>{
-
     try {
-        var poll = await Poll.findOne({id:req.params.id})
+        if(!Number.isInteger(req.params.id)){
+            return res.status(404).render('404',
+            {
+                pageTitle:'AnonVote - Poll not found',
+                headerText:'404 - Poll not found'
+            })
+        }
+
+        const poll = await Poll.findOne({id:req.params.id})
 
         if(!poll){
             return res.status(404).render('404',
@@ -91,23 +97,22 @@ app.get('/polls/:id',async(req,res)=>{
 
 app.patch('/polls/:id',async(req,res)=>{
     try {
-        
-        var poll = await Poll.findOne({id: req.params.id})
+        const poll = await Poll.findOne({id: req.params.id})
         
         if(!poll){
             return res.status(404).send()
         }
     
         // Check ip for possible duplicate vote
-        var clientIp = ip.toBuffer(req.clientIp)
-        var existingIp = poll.voters.find(o=>ip.toString(o.ip_buffer) === ip.toString(clientIp))
+        const clientIp = ip.toBuffer(req.clientIp)
+        const existingIp = poll.voters.find(o=>ip.toString(o.ip_buffer) === ip.toString(clientIp))
         if(existingIp) {
             return res.status(400).send()
         }
 
-        poll.voters.push({"ip_buffer":clientIp})
+        poll.voters.push({'ip_buffer':clientIp})
         
-        var option = poll.options.find(o => o.option === req.body.option)
+        const option = poll.options.find(o => o.option === req.body.option)
         option.votes+=1
 
         await poll.save()
@@ -120,7 +125,6 @@ app.patch('/polls/:id',async(req,res)=>{
     } catch(e) {
         res.status(400).send(e)
     }
-
 })
 
 app.get('*',(req,res)=>{

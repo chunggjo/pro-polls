@@ -22,7 +22,7 @@ const PollSchema = new Schema({
     voters:[{
         ip_buffer:{
             type:Buffer,
-            required: false,
+            required: true,
         }
     }]
 })

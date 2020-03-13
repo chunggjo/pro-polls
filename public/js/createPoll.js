@@ -1,32 +1,32 @@
-var addOptionButton = document.getElementById('addOption')
-var removeOptionButton = document.getElementById('removeOption')
-var createForm = document.querySelector('form')
-var message = document.getElementById('message')
+const addOptionButton = document.getElementById('addOption')
+const removeOptionButton = document.getElementById('removeOption')
+const createForm = document.querySelector('form')
+const message = document.getElementById('message')
 
 createForm.addEventListener('submit',(e)=>{
     e.preventDefault()
     
     message.textContent=''
-    var formData
-    var optionObjects = []
+    let formData = {}
+    let optionObjects = []
 
-    var title = document.getElementById('pollTitle').value
-    var optionInputs = document.getElementsByClassName('option')
-
-    for(var i = 0; i <  optionInputs.length; i++){
-        var obj = {
+    // Create form data
+    const title = document.getElementById('pollTitle').value
+    const optionInputs = document.getElementsByClassName('option')
+    for(let i = 0; i <  optionInputs.length; i++){
+        const obj = {
             "option": optionInputs[i].value,
             "votes":0
         }
         optionObjects.push(obj)
     }
-
     formData = {
         "title":title,
         "options":optionObjects,
         "voters":[]
     }
 
+    // Post form data
     fetch(window.location.href,{
         method:'POST',
         headers:{'Content-Type':'application/json'},
@@ -37,14 +37,14 @@ createForm.addEventListener('submit',(e)=>{
                 window.location.href = '../polls/' + data.id
             })
         }else{
-            message.textContent="Please fill in all the fields and try again."
+            message.textContent='Please fill in all the fields and try again.'
         }
     })
 })
 
 removeOptionButton.addEventListener('click',()=>{
-    var optionCount = getOptionCount()
-    var minOptions = 2
+    let optionCount = getOptionCount()
+    const minOptions = 2
     if(optionCount === minOptions){
         return
     }
@@ -53,8 +53,8 @@ removeOptionButton.addEventListener('click',()=>{
 })
 
 addOptionButton.addEventListener('click',()=>{
-    var optionCount = getOptionCount()
-    var maxOptions = 8    
+    let optionCount = getOptionCount()
+    const maxOptions = 16    
     if(optionCount === maxOptions){
         return
     }
