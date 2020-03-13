@@ -5,7 +5,7 @@ const app = express()
 require('./db/mongoose')
 const Poll = require('./models/poll')
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8080
 
 const publicDirectoryPath = path.join(__dirname,'../public')
 
@@ -34,6 +34,7 @@ app.use(express.static(publicDirectoryPath))
 app.use(express.json())
 
 app.get('/',(req,res)=>{
+    myFunction(req)
     res.render('index',{
         pageTitle:'AnonVote - Home',
         headerText:'Welcome to AnonVote!'
@@ -109,3 +110,16 @@ app.listen(port, ()=>{
     console.log('Server is up on port ' + port)
 })
 
+const bcrypt = require('bcryptjs')
+const requestIp = require('request-ip')
+
+const myFunction = async(req)=>{
+    const clientIp = requestIp.getClientIp(req)
+    const hashedIp = await bcrypt.hash(clientIp, 8)
+
+    console.log(clientIp)
+    console.log(hashedIp)
+
+    const isMatch = await bcrypt.compare("::1", hashedIp)
+    console.log(isMatch)
+}
