@@ -55,7 +55,11 @@ app.post('/create',async(req,res)=>{
     var poll = new Poll(req.body)
 
     poll.save().then(()=>{
-        res.status(201).send(poll)
+        res.status(201).send({
+            title:poll.title,
+            options:poll.options,
+            id:poll.id
+        })
     }).catch((e)=>{
         res.status(400).send(e)
     })
