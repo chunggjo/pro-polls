@@ -55,7 +55,7 @@ app.post('/create',async(req,res)=>{
     var poll = new Poll(req.body)
 
     poll.save().then(()=>{
-        res.send(poll)
+        res.status(201).send(poll)
     }).catch((e)=>{
         res.status(400).send(e)
     })
@@ -67,8 +67,8 @@ app.get('/polls/:id',async(req,res)=>{
         var poll = await Poll.findOne({id:req.params.id})
 
         if(!poll){
-            // return res.status(404).send()
-            return res.render('404',{
+            return res.status(404).render('404',
+            {
                 pageTitle:'AnonVote - Poll not found',
                 headerText:'404 - Poll not found'
             })
@@ -96,12 +96,11 @@ app.patch('/polls/:id',async(req,res)=>{
     
         // Check ip for possible duplicate vote
         var clientIp = ip.toBuffer(req.clientIp)
-
         var existingIp = poll.voters.find(o=>ip.toString(o.ip_buffer) === ip.toString(clientIp))
-
         if(existingIp) {
-            return res.status(404).send('You\'ve already voted on this poll')
+            return res.status(400).send()
         }
+
         poll.voters.push({"ip_buffer":clientIp})
         
         var option = poll.options.find(o => o.option === req.body.option)
@@ -109,7 +108,7 @@ app.patch('/polls/:id',async(req,res)=>{
 
         await poll.save()
 
-        res.send({
+        res.status(200).send({
             title:poll.title,
             options:poll.options,
             id:poll.id

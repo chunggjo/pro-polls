@@ -1,4 +1,5 @@
 const voteForm = document.querySelector('form')
+const message = document.getElementById('message')
 
 voteForm.addEventListener('submit',(e)=>{
     var selectedOption = ''
@@ -17,8 +18,17 @@ voteForm.addEventListener('submit',(e)=>{
         body: JSON.stringify({
             "option":selectedOption
         })
-    }).then(()=>{
-        location.reload()
+    }).then((response)=>{
+        if(response.status===200){
+            message.textContent="Thanks for voting!"
+        } else if(response.status===400){
+            message.textContent="You've already voted on this poll"
+        }
+        // TODO: Implement realtime results
+        setTimeout(()=>{
+            location.reload()
+        }, 1000)
+        
     })
 })
 

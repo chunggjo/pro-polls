@@ -5,7 +5,8 @@ var message = document.getElementById('message')
 
 createForm.addEventListener('submit',(e)=>{
     e.preventDefault()
-
+    
+    message.textContent=''
     var formData
     var optionObjects = []
 
@@ -31,9 +32,13 @@ createForm.addEventListener('submit',(e)=>{
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify(formData)
     }).then((response)=>{        
-        response.json().then((data)=>{
-            window.location.href = '../polls/' + data.id
-        })
+        if(response.status===201){
+            response.json().then((data)=>{
+                window.location.href = '../polls/' + data.id
+            })
+        }else{
+            message.textContent="Please fill in all the fields and try again."
+        }
     })
 })
 
