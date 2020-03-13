@@ -1,26 +1,36 @@
-<section>
-<form>
-    <div>
-        <label for="pollTitle">Title</label>
-        <input type="text" name="pollTitle" id="pollTitle">
-    </div>
-    <div id="options">
-        <div id='1'>
-            <label for="option-1">Option 1</label>
-            <input type="text" class="option" name="option-1">
+<section id="hero" class="d-flex justify-cntent-center align-items-center">
+    <div id="heroCarousel" class="container carousel carousel-fade" data-ride="carousel">
+
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+            <div class="carousel-container">
+                <h2 class="animated fadeInDown">{{headerText}}</h2>
+                <form class="animated fadeInDown">
+                    <div>
+                        <label for="pollTitle">Title</label>
+                        <input class="option create-input" type="text" name="pollTitle" id="pollTitle">
+                    </div>
+                    <div id="options">
+                        <div id='1'>
+                            <label for="option-1">Option 1</label>
+                            <input type="text" class="option create-input" name="option-1">
+                        </div>
+                        <div id='2'>
+                            <label for="option-2">Option 2</label>
+                            <input type="text" class="option create-input" name="option-2">
+                        </div>
+                    </div>
+                    <button class="submit-button animated fadeInUp" id='create'>Create</button>
+                </form>
+                <p id="message"></p>
+                <div>
+                    <button class="submit-button animated fadeInUp" id="addOption">+</button>
+                    <button class="submit-button animated fadeInUp" id="removeOption">-</button>
+                </div>
+            </div>
         </div>
-        <div id='2'>
-            <label for="option-2">Option 2</label>
-            <input type="text" class="option" name="option-2">
-        </div>
     </div>
-    <button id='create'>Create</button>
-</form>
-<p id="message"></p>
-<div>
-    <button id="addOption">+</button>
-    <button id="removeOption">-</button>
-</div>
-<script src='/js/jquery-3.4.1.min.js'></script>
-<script src='/js/createPoll.js'></script>
+
+    <script src='/js/jquery-3.4.1.min.js'></script>
+    <script src='/js/createPoll.js'></script>
 </section>

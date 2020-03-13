@@ -2228,9 +2228,9 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Index input
+# Extra Styles
 --------------------------------------------------------------*/
-form {
+.index-form {
 	margin-top: 30px;
 	background: #fff;
 	padding: 6px 10px;
@@ -2238,7 +2238,17 @@ form {
 	border-radius: 50px;
 }
 
-form input[type='text'] {
+.index-form input[type='text'] {
+	border: 0;
+	padding: 4px;
+	width: calc(100% - 100px);
+}
+
+.create-input {
+	background: #fff;
+	padding: 6px 10px;
+	position: relative;
+	border-radius: 50px;
 	border: 0;
 	padding: 4px;
 	width: calc(100% - 100px);
@@ -2262,4 +2272,36 @@ form input[type='text'] {
 
 .input-button:hover {
 	background: #468db3;
+}
+
+label {
+	font-family: 'Roboto', sans-serif;
+	color: #fff;
+	margin-bottom: 30px;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.submit-button {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 500;
+	font-size: 14px;
+	letter-spacing: 1px;
+	display: inline-block;
+	padding: 12px 32px;
+	border-radius: 50px;
+	transition: 0.5s;
+	line-height: 1;
+	margin: 10px;
+	color: #fff;
+	-webkit-animation-delay: 0.8s;
+	animation-delay: 0.8s;
+	border: 2px solid #68a4c4;
+	background-color: transparent;
+}
+
+.submit-button:hover {
+	background: #68a4c4;
+	color: #fff;
+	text-decoration: none;
 }
