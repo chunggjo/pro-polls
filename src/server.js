@@ -96,8 +96,9 @@ app.patch('/polls/:id',async(req,res)=>{
     
         // Check ip for possible duplicate vote
         const clientIp = ip.toBuffer(req.clientIp)
-        const existingIp = poll.voters.find(o=>ip.toString(o.ip_buffer) === ip.toString(clientIp))
-        if(existingIp) {
+        // const existingIp = poll.voters.find(o=>ip.toString(o.ip_buffer) === ip.toString(clientIp)
+        const existingIpIndex = poll.voters.map(x=>ip.toString(x.ip_buffer)).indexOf(ip.toString(clientIp))
+        if(existingIpIndex !== -1) {
             return res.status(400).send()
         }
 
