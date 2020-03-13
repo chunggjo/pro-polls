@@ -19,10 +19,12 @@ const PollSchema = new Schema({
             required:true
         }
     }],
-    voters:{
-        type:[String],
-        required:true
-    }
+    voters:[{
+        ip_buffer:{
+            type:Buffer,
+            required: false,
+        }
+    }]
 })
 
 PollSchema.plugin(AutoIncrement,{inc_field:'id'})

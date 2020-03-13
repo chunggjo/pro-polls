@@ -5,7 +5,7 @@ const app = express()
 require('./db/mongoose')
 const Poll = require('./models/poll')
 const requestIp = require('request-ip')
-const bcrypt = require('bcryptjs')
+const ip = require('ip')
 
 const port = process.env.PORT || 8080
 
@@ -90,22 +90,30 @@ app.patch('/polls/:id',async(req,res)=>{
         
         var poll = await Poll.findOne({id: req.params.id})
         
+        if(!poll){
+            return res.status(404).send()
+        }
+    
         // Check ip for possible duplicate vote
-        var clientIp = req.clientIp
-        var hashedIp = await bcrypt.hash(clientIp,8)
-        // TODO: If ip exists then return 404 else add hashedIp to poll
-        poll.voters.push(hashedIp)
+        var clientIp = ip.toBuffer(req.clientIp)
+
+        var existingIp = poll.voters.find(o=>ip.toString(o.ip_buffer) === ip.toString(clientIp))
+
+        if(existingIp) {
+            return res.status(404).send('You\'ve already voted on this poll')
+        }
+        poll.voters.push({"ip_buffer":clientIp})
         
         var option = poll.options.find(o => o.option === req.body.option)
         option.votes+=1
 
         await poll.save()
 
-        if(!poll){
-            return res.status(404).send()
-        }
-    
-        res.send(poll)
+        res.send({
+            title:poll.title,
+            options:poll.options,
+            id:poll.id
+        })
     } catch(e) {
         res.status(400).send(e)
     }
