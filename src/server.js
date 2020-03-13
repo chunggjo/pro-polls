@@ -63,7 +63,11 @@ app.get('/polls/:id',async(req,res)=>{
         var poll = await Poll.findOne({id:req.params.id})
 
         if(!poll){
-            return res.status(404).send()
+            // return res.status(404).send()
+            return res.render('404',{
+                pageTitle:'AnonVote - Poll not found',
+                headerText:'404 - Poll not found'
+            })
         }
 
         res.render('poll',{
