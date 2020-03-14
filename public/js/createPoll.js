@@ -44,6 +44,8 @@ createForm.addEventListener('submit',(e)=>{
 
 removeOptionButton.addEventListener('click',()=>{
     let optionCount = getOptionCount()
+    console.log(optionCount)
+
     const minOptions = 2
     if(optionCount === minOptions){
         return
@@ -54,16 +56,19 @@ removeOptionButton.addEventListener('click',()=>{
 
 addOptionButton.addEventListener('click',()=>{
     let optionCount = getOptionCount()
+    console.log(optionCount)
+
     const maxOptions = 16    
     if(optionCount === maxOptions){
         return
     }
-    optionCount++
 
+    optionCount++
     var html='<div id="'+optionCount+'">'
-    html+='<label for="option-'+optionCount+'">Option ' + optionCount + '</label>'
-    html+='<input type="text" class="option" name="option-'+optionCount+'">'
+    html+='<label for="option-'+optionCount+'">Option '+optionCount+'&nbsp;</label>'
+    html+='<input type="text" class="option create-input" name="option-'+optionCount+'">'
     html+='</div>'
+
     $('#options').append(html)
 })
 
