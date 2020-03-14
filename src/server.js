@@ -8,7 +8,6 @@ const requestIp = require('request-ip')
 const ip = require('ip')
 
 const port = process.env.PORT || 3000
-
 const publicDirectoryPath = path.join(__dirname,'../public')
 
 const hbs = expbs.create({
