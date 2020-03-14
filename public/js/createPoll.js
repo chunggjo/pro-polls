@@ -56,7 +56,7 @@ removeOptionButton.addEventListener('click',()=>{
 addOptionButton.addEventListener('click',()=>{
     let optionCount = getOptionCount()
 
-    const maxOptions = 16    
+    const maxOptions = 8    
     if(optionCount === maxOptions){
         return
     }
