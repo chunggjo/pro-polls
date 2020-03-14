@@ -13,6 +13,10 @@
     "express": "^4.17.1",
     "hbs": "^4.1.0",
     "mongodb": "^3.5.4",
+<<<<<<< HEAD
+    "nodemon": "^2.0.2",
+=======
+>>>>>>> origin/joe-branch
     "request": "^2.88.2"
   }
 }
