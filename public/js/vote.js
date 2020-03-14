@@ -1,7 +1,12 @@
 const voteForm = document.querySelector('form')
-const message = document.getElementById('message')
+const message = document.querySelector('#message')
+const copyUrl = document.querySelector('#copyUrl')
+const urlText = document.querySelector('#urlText')
+
+urlText.value=window.location.href
 
 voteForm.addEventListener('submit',(e)=>{
+
     let selectedOption = ''
 
     e.preventDefault()
@@ -31,4 +36,13 @@ voteForm.addEventListener('submit',(e)=>{
             location.reload()
         }, 1000)
     })
+})
+
+copyUrl.addEventListener('click',()=>{
+    urlText.select()
+    urlText.setSelectionRange(0,99999)
+
+    document.execCommand('copy')
+
+    message.textContent='Link copied!'
 })
