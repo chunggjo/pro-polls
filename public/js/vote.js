@@ -39,6 +39,8 @@ voteForm.addEventListener('submit',(e)=>{
 })
 
 copyUrl.addEventListener('click',()=>{
+    urlText.value=window.location.href
+
     urlText.select()
     urlText.setSelectionRange(0,99999)
 
