@@ -2305,3 +2305,10 @@ label {
 	color: #fff;
 	text-decoration: none;
 }
+
+h5 {
+	color: #fff;
+	margin-bottom: 30px;
+	font-size: 24px;
+	font-weight: 700;
+}
