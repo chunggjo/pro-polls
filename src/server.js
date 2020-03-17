@@ -12,7 +12,6 @@ const port = process.env.PORT || 3000
 const publicDirectoryPath = path.join(__dirname, '../public')
 
 const hbs = expbs.create({
-<<<<<<< HEAD
 	defaultLayout: 'main',
 	helpers: {
 		createPollForm: function(value) {
@@ -20,38 +19,26 @@ const hbs = expbs.create({
 			for (var i = 0; i < value.length; i++) {
 				var option = value[i].option
 				var votes = value[i].votes
-				out += '<div>'
-				out += '<input type="radio" name="option" value="' + option + '">'
+				out += '\n<div>'
 				out +=
-					'<label for="' +
+					'\n<input id="' +
+					option +
+					'" type="radio" name="option" value="' +
+					option +
+					'">'
+				out +=
+					'\n<label for="' +
 					option +
 					'">' +
 					option +
 					' - ' +
 					votes +
 					' votes</label>'
-				out += '</div>'
+				out += '\n</div>'
 			}
-			return out
+			return out + '\n'
 		}
 	}
-=======
-    defaultLayout:'main',
-    helpers:{
-        createPollForm: function(value){
-            var out = ''
-            for(var i = 0; i < value.length; i++){
-                var option = value[i].option
-                var votes = value[i].votes
-                out+='\n<div>'
-                out+='\n<input id="'+option+'" type="radio" name="option" value="'+option+'">'
-                out+='\n<label for="'+option+'">'+option+' - '+votes+' votes</label>'
-                out+='\n</div>'
-            }
-            return out+'\n'
-        }
-    }
->>>>>>> 0af650bafc0f3dd68dc59f5184d825c0131e88d7
 })
 app.engine('handlebars', hbs.engine)
 app.set('view engine', 'handlebars')
