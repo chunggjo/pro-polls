@@ -1,19 +1,29 @@
-<h2>{{pollTitle}}</h2>
-<form>
-    <div>
-        {{#createPollForm options}}
-            
-        {{/createPollForm}}
-        <div>
-            <button id="voteButton">Vote</button>
+<section id="hero" class="d-flex justify-cntent-center align-items-center">
+    <div id="heroCarousel" class="container carousel carousel-fade" data-ride="carousel">
+
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+            <div class="carousel-container">
+                <h2>{{pollTitle}}</h2>
+                <form>
+                    <div>
+                        {{#createPollForm options}}
+
+                        {{/createPollForm}}
+                        <div>
+                            <button id="voteButton">Vote</button>
+                        </div>
+                    </div>
+                </form>
+                <p id="message"></p>
+                <button id='copyUrl'>Copy link</button>
+                <div>
+                    <input type="text" id="urlText">
+                </div>
+            </div>
         </div>
     </div>
-</form>
-<p id="message"></p>
-<button id='copyUrl'>Copy link</button>
-<div>
-    <input type="text" id="urlText">
-</div>
+</section><!-- End Hero -->
+
 
 <script src='/js/vote.js'></script>
-
