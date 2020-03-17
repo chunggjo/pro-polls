@@ -19,12 +19,12 @@ const hbs = expbs.create({
             for(var i = 0; i < value.length; i++){
                 var option = value[i].option
                 var votes = value[i].votes
-                out+='<div>'
-                out+='<input type="radio" name="option" value="'+option+'">'
-                out+='<label for="'+option+'">'+option+' - '+votes+' votes</label>'
-                out+='</div>'
+                out+='\n<div>'
+                out+='\n<input id="'+option+'" type="radio" name="option" value="'+option+'">'
+                out+='\n<label for="'+option+'">'+option+' - '+votes+' votes</label>'
+                out+='\n</div>'
             }
-            return out
+            return out+'\n'
         }
     }
 })
