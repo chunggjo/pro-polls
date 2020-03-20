@@ -1,11 +1,16 @@
 const path = require('path')
+const http = require('http')
 const express = require('express')
-const app = express()
 const expbs = require('express-handlebars')
 require('./db/mongoose')
 const Poll = require('./models/poll')
+const socket = require('socket.io')
 const requestIp = require('request-ip')
 const ip = require('ip')
+
+const app = express()
+const server = http.createServer(app)
+const io = socket(server)
 
 const port = process.env.PORT || 3000
 
@@ -126,6 +131,14 @@ app.get('*',(req,res)=>{
     })
 })
 
-app.listen(port, ()=>{
+server.listen(port, ()=>{
     console.log('Server is up on port ' + port)
+})
+
+io.on('connection', (socket)=>{
+    console.log("made socket connection", socket.id)
+
+    // socket.on('chat', function(data){
+    //     io.sockets.emit('chat', data)
+    // })
 })

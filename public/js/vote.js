@@ -2,6 +2,7 @@ const voteForm = document.querySelector('form')
 const message = document.querySelector('#message')
 const copyUrl = document.querySelector('#copyUrl')
 const urlText = document.querySelector('#urlText')
+const socket = io()
 
 urlText.value=window.location.href
 
