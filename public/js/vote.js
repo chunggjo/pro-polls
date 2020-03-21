@@ -1,5 +1,4 @@
 (function createPollForm(){
-    options = JSON.parse(options)
     var html = ''
     for(var i = 0; i < options.length; i++){
         var option = options[i].option
@@ -34,7 +33,7 @@ voteForm.addEventListener('submit',(e)=>{
     }
 
     // Send patch request with selected option
-    fetch(window.location.href, {
+    fetch('/polls/'+pollId, {
         method:'PATCH',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify({

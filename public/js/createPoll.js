@@ -42,7 +42,7 @@ createForm.addEventListener('submit',(e)=>{
     }
 
     // Post form data
-    fetch(window.location.href,{
+    fetch('/create',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify(formData)
