@@ -1,14 +1,19 @@
 const path = require('path')
+const http = require('http')
 const express = require('express')
-const app = express()
 const expbs = require('express-handlebars')
 require('./db/mongoose')
 const Poll = require('./models/poll')
+const socketio = require('socket.io')
+const {addUser,removeUser,getUser} = require('./utils/users')
 const requestIp = require('request-ip')
 const ip = require('ip')
 
-const port = process.env.PORT || 3000
+const app = express()
+const server = http.createServer(app)
+const io = socketio(server)
 
+<<<<<<< HEAD
 const publicDirectoryPath = path.join(__dirname, '../public')
 
 const hbs = expbs.create({
@@ -42,6 +47,22 @@ const hbs = expbs.create({
 })
 app.engine('handlebars', hbs.engine)
 app.set('view engine', 'handlebars')
+=======
+const port = process.env.PORT || 3000
+const publicDirectoryPath = path.join(__dirname,'../public')
+
+const hbs = expbs.create({
+    defaultLayout:'main',
+    helpers:{
+        json:function(value){
+            return JSON.stringify(value)
+        }
+    }
+})
+
+app.engine('handlebars',hbs.engine)
+app.set('view engine','handlebars')
+>>>>>>> efa1573580cc7e08ea3b2f41153e6d2f07944355
 
 app.use(express.static(publicDirectoryPath))
 app.use(express.json())
@@ -79,6 +100,7 @@ app.post('/create', async (req, res) => {
 		})
 })
 
+<<<<<<< HEAD
 app.get('/polls/:id', async (req, res) => {
 	try {
 		const poll = await Poll.findOne({ id: req.params.id })
@@ -134,6 +156,61 @@ app.patch('/polls/:id', async (req, res) => {
 	} catch (e) {
 		res.status(400).send(e)
 	}
+=======
+app.get('/polls/:id',async(req,res)=>{
+    try {
+        const poll = await Poll.findOne({id:req.params.id})
+
+        if(!poll){
+            return res.status(404).render('404',{
+                pageTitle:'AnonVote - Poll not found',
+                headerText:'404 - Poll not found'
+            })
+        }
+
+        res.render('poll',{
+            pageTitle:'AnonVote - Vote',
+            headerText:'Vote!',
+            pollTitle:poll.title,
+            options:poll.options,
+            pollId:poll.id
+        })
+    }catch(e){
+        res.status(500).send()
+    }
+})
+
+app.patch('/polls/:id',async(req,res)=>{
+    try {
+        const poll = await Poll.findOne({id: req.params.id})
+        
+        if(!poll){
+            return res.status(404).send()
+        }
+    
+        // Check ip for possible duplicate vote
+        const clientIp = ip.toBuffer(req.clientIp)
+        const existingIpIndex = poll.voters.map(x=>ip.toString(x.ip_buffer)).indexOf(ip.toString(clientIp))
+        if(existingIpIndex !== -1) {
+            return res.status(400).send()
+        }
+
+        poll.voters.push({'ip_buffer':clientIp})
+        
+        const option = poll.options.find(o => o.option === req.body.option)
+        option.votes+=1
+
+        await poll.save()
+
+        res.status(200).send({
+            title:poll.title,
+            options:poll.options,
+            pollId:poll.id
+        })
+    } catch(e) {
+        res.status(400).send(e)
+    }
+>>>>>>> efa1573580cc7e08ea3b2f41153e6d2f07944355
 })
 
 app.get('*', (req, res) => {
@@ -143,6 +220,31 @@ app.get('*', (req, res) => {
 	})
 })
 
+<<<<<<< HEAD
 app.listen(port, () => {
 	console.log('Server is up on port ' + port)
+=======
+io.on('connection', (socket)=>{
+    socket.on('join',(pollId)=>{
+        const user = addUser(socket.id,pollId)
+
+        socket.join(user.pollId)
+    })
+
+    socket.on('vote',(data)=>{
+        const user = getUser(socket.id)
+
+        // Show updated options to users
+        io.to(user.pollId).emit('vote', data)
+    })
+
+    socket.on('disconnect',()=>{
+        removeUser(socket.id)
+    })
 })
+
+server.listen(port, ()=>{
+    console.log('Server is up on port ' + port)
+>>>>>>> efa1573580cc7e08ea3b2f41153e6d2f07944355
+})
+
