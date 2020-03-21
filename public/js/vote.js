@@ -1,18 +1,17 @@
 ;(function createPollForm() {
-	options = JSON.parse(options)
 	var html = ''
 	for (var i = 0; i < options.length; i++) {
 		var option = options[i].option
 		var votes = options[i].votes
-		html += '\n<div>'
+		html += '<div>'
 		html +=
-			'\n<input id="' +
+			'<input id="' +
 			option +
 			'" type="radio" name="option" value="' +
 			option +
 			'">'
 		html +=
-			'\n<label for="' +
+			'<label for="' +
 			option +
 			'">' +
 			option +
@@ -21,18 +20,14 @@
 			'-votes">' +
 			votes +
 			'</span> votes</label>'
-		html += '\n</div>'
+		html += '</div>'
 	}
 	return (document.querySelector('#options').innerHTML = html)
 })()
 
 const voteForm = document.querySelector('form')
 const message = document.querySelector('#message')
-const copyUrl = document.querySelector('#copyUrl')
-const urlText = document.querySelector('#urlText')
-const socket = io()
-
-urlText.value = window.location.href
+const socketio = io()
 
 voteForm.addEventListener('submit', e => {
 	let selectedOption = ''
@@ -47,7 +42,7 @@ voteForm.addEventListener('submit', e => {
 	}
 
 	// Send patch request with selected option
-	fetch(window.location.href, {
+	fetch('/polls/' + pollId, {
 		method: 'PATCH',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({
@@ -64,14 +59,14 @@ voteForm.addEventListener('submit', e => {
 		}
 		response.json().then(data => {
 			// Send updated options to server
-			socket.emit('vote', {
+			socketio.emit('vote', {
 				options: data.options
 			})
 		})
 	})
 })
 
-socket.on('vote', data => {
+socketio.on('vote', data => {
 	var options = data.options
 	for (var i = 0; i < options.length; i++) {
 		document.getElementById(options[i].option + '-votes').textContent =
@@ -79,13 +74,4 @@ socket.on('vote', data => {
 	}
 })
 
-socket.emit('join', pollId)
-
-copyUrl.addEventListener('click', () => {
-	urlText.select()
-	urlText.setSelectionRange(0, 99999)
-
-	document.execCommand('copy')
-
-	message.textContent = 'Link copied!'
-})
+socketio.emit('join', pollId)

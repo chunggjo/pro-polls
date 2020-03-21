@@ -6,15 +6,15 @@ const message = document.getElementById('message')
 createForm.addEventListener('submit', e => {
 	e.preventDefault()
 
-	message.textContent = ''
-	let formData = {}
-	let optionObjects = []
-
 	const title = document.getElementById('pollTitle').value
+	if (title === '')
+		return (message.textContent =
+			'Please make sure all fields are filled then try again.')
 	const optionInputs = document.getElementsByName('option')
 	const optionsArray = []
 
 	// Check for valid form data
+
 	for (let i = 0; i < optionInputs.length; i++) {
 		if (optionInputs[i].value === '') {
 			return (message.textContent =
@@ -29,29 +29,24 @@ createForm.addEventListener('submit', e => {
 			'Please make sure all options are unique then try again.')
 	}
 
-	// Create form data
-	for (let i = 0; i < optionsArray.length; i++) {
-		const obj = {
-			option: optionsArray[i],
-			votes: 0
+	// Check for valid form data
+	for (let i = 0; i < optionInputs.length; i++) {
+		if (optionInputs[i].value === '') {
+			return (message.textContent =
+				'Please make sure all fields are filled then try again.')
 		}
-		optionObjects.push(obj)
-	}
-	formData = {
-		title: title,
-		options: optionObjects,
-		voters: []
+		optionsArray.push(optionInputs[i].value)
 	}
 
 	// Post form data
-	fetch(window.location.href, {
+	fetch('/create', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(formData)
 	}).then(response => {
 		if (response.status === 201) {
-			response.json().then(data => {
-				window.location.href = '../polls/' + data.id
+			response.json().then(poll => {
+				window.location.href = '../polls/' + poll.id
 			})
 		} else {
 			message.textContent =

@@ -6,7 +6,11 @@
 
             <div class="carousel-container">
 
+<<<<<<< HEAD
                 <h2 class="animated fadeInDown">{{pollTitle}}</h2>
+=======
+                <h2 class="animated fadeInDown">{{poll.title}}</h2> 
+>>>>>>> 464eb2ab3ce14805a48e22dee6b8003683b118cc
                 <form>
                     <div id='options'>
 
@@ -22,8 +26,17 @@
         </div>
 
     </div>
+<<<<<<< HEAD
     <script>
         var options = '{{{json options}}}'
         const pollId = '{{json pollId}}'
     </script>
     <script src='/js/vote.js'></script>
+=======
+<script>
+    const options = JSON.parse('{{{json poll.options}}}')
+    const pollId = '{{json poll.id}}'
+</script>
+<script src='/js/vote.js'></script>
+<script src='/js/copyUrl.js'></script>
+>>>>>>> 464eb2ab3ce14805a48e22dee6b8003683b118cc
