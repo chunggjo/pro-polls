@@ -1,20 +1,20 @@
-const path = require('path')
-const http = require('http')
-const express = require('express')
-const expbs = require('express-handlebars')
+const path = require('path'),
+http = require('http')
+const express = require('express'),
+expbs = require('express-handlebars')
 require('./db/mongoose')
 const Poll = require('./models/poll')
-const socketio = require('socket.io')
-const {addUser,removeUser,getUser} = require('./utils/users')
-const requestIp = require('request-ip')
-const ip = require('ip')
+const socketio = require('socket.io'),
+{addUser,removeUser,getUser} = require('./utils/users')
+const requestIp = require('request-ip'),
+    ip = require('ip')
 
 const app = express()
-const server = http.createServer(app)
-const io = socketio(server)
+const server = http.createServer(app),
+io = socketio(server)
 
-const port = process.env.PORT || 3000
-const publicDirectoryPath = path.join(__dirname,'../public')
+const port = process.env.PORT || 3000,
+publicDirectoryPath = path.join(__dirname,'../public')
 
 const hbs = expbs.create({
     defaultLayout:'main',

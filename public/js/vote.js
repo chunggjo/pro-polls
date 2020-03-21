@@ -13,11 +13,7 @@
 
 const voteForm = document.querySelector('form')
 const message = document.querySelector('#message')
-const copyUrl = document.querySelector('#copyUrl')
-const urlText = document.querySelector('#urlText')
 const socketio = io()
-
-urlText.value=window.location.href
 
 voteForm.addEventListener('submit',(e)=>{
 
@@ -64,12 +60,3 @@ socketio.on('vote',(data)=>{
 })
 
 socketio.emit('join',pollId)
-
-copyUrl.addEventListener('click',()=>{
-    urlText.select()
-    urlText.setSelectionRange(0,99999)
-
-    document.execCommand('copy')
-
-    message.textContent='Link copied!'
-})
