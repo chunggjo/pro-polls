@@ -35,14 +35,14 @@ app.use(requestIp.mw())
 
 app.get('/',(req,res)=>{
     res.render('index',{
-        pageTitle:'AnonVote - Home',
-        headerText:'Welcome to AnonVote!'
+        pageTitle:'Pro Polls - Home',
+        headerText:'Welcome to Pro Polls!'
     })
 })
 
 app.get('/create',(req,res)=>{
     res.render('create',{
-        pageTitle:'AnonVote - Create',
+        pageTitle:'Pro Polls - Create',
         headerText:'Create a Poll'
     })
 })
@@ -63,13 +63,13 @@ app.get('/polls/:id',async(req,res)=>{
 
         if(!poll){
             return res.status(404).render('404',{
-                pageTitle:'AnonVote - Poll not found',
+                pageTitle:'Pro Polls - Poll not found',
                 headerText:'404 - Poll not found'
             })
         }
 
         res.render('poll',{
-            pageTitle:'AnonVote - Vote',
+            pageTitle:'Pro Polls - Vote',
             headerText:'Vote!',
             poll
         })
@@ -108,8 +108,9 @@ app.patch('/polls/:id',async(req,res)=>{
 
 app.get('*',(req,res)=>{
     res.render('404',{
-        pageTitle:'AnonVote - Page not found',
-        headerText:'404 - Page not found'
+        pageTitle:'Pro Polls - Page not found',
+        headerText:'404 - Page not found',
+        errorMessage:''
     })
 })
 
