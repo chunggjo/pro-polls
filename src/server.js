@@ -1,12 +1,16 @@
 const path = require('path')
 const express = require('express')
-const app = express()
 const expbs = require('express-handlebars')
 require('./db/mongoose')
 const Poll = require('./models/poll')
 const requestIp = require('request-ip')
 const ip = require('ip')
+const socketio = require('socket.io')
+const http = require('http')
 
+const app = express()
+const server = http.createServer(app)
+const io = socketio(server)
 const port = process.env.PORT || 3000
 const publicDirectoryPath = path.join(__dirname,'../public')
 
@@ -125,6 +129,6 @@ app.get('*',(req,res)=>{
     })
 })
 
-app.listen(port, ()=>{
+server.listen(port, ()=>{
     console.log('Server is up on port ' + port)
 })
