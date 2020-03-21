@@ -1,3 +1,17 @@
+(function createPollForm(){
+    options = JSON.parse(options)
+    var html = ''
+    for(var i = 0; i < options.length; i++){
+        var option = options[i].option
+        var votes = options[i].votes
+        html+='\n<div>'
+        html+='\n<input id="'+option+'" type="radio" name="option" value="'+option+'">'
+        html+='\n<label for="'+option+'">'+option+' - <span id="'+option+'-votes">'+votes+'</span> votes</label>'
+        html+='\n</div>'
+    }
+    return document.querySelector('#options').innerHTML=html
+})()
+
 const voteForm = document.querySelector('form')
 const message = document.querySelector('#message')
 const copyUrl = document.querySelector('#copyUrl')
@@ -32,12 +46,22 @@ voteForm.addEventListener('submit',(e)=>{
         } else if(response.status===400){
             message.textContent='You\'ve already voted on this poll'
         }
-        // TODO: Implement realtime results
-        setTimeout(()=>{
-            location.reload()
-        }, 1000)
+        response.json().then((data)=>{
+            socket.emit('vote',{
+                options:data.options
+            })
+        })
     })
 })
+
+socket.on('vote',(data)=>{
+    var options = data.options
+    for(var i = 0; i < options.length; i++){
+        document.querySelector('#'+options[i].option+'-votes').textContent=options[i].votes
+    }
+})
+
+socket.emit('join',JSON.parse(pollId))
 
 copyUrl.addEventListener('click',()=>{
     urlText.select()
