@@ -7,7 +7,7 @@
 
             <div class="carousel-container">
 
-                <h2 class="animated fadeInDown">{{pollTitle}}</h2> 
+                <h2 class="animated fadeInDown">{{poll.title}}</h2> 
                 <form>
                     <div id='options'>
 
@@ -24,8 +24,8 @@
 
     </div>
 <script>
-    const options = JSON.parse('{{{json options}}}')
-    const pollId = '{{json pollId}}'
+    const options = JSON.parse('{{{json poll.options}}}')
+    const pollId = '{{json poll.id}}'
 </script>
 <script src='/js/vote.js'></script>
 <script src='/js/copyUrl.js'></script>

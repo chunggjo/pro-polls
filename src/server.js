@@ -51,11 +51,7 @@ app.post('/create',async(req,res)=>{
     const poll = new Poll(req.body)
 
     poll.save().then(()=>{
-        res.status(201).send({
-            title:poll.title,
-            options:poll.options,
-            id:poll.id
-        })
+        res.status(201).send(poll)
     }).catch((e)=>{
         res.status(400).send(e)
     })
@@ -75,9 +71,7 @@ app.get('/polls/:id',async(req,res)=>{
         res.render('poll',{
             pageTitle:'AnonVote - Vote',
             headerText:'Vote!',
-            pollTitle:poll.title,
-            options:poll.options,
-            pollId:poll.id
+            poll
         })
     }catch(e){
         res.status(500).send()
@@ -106,11 +100,7 @@ app.patch('/polls/:id',async(req,res)=>{
 
         await poll.save()
 
-        res.status(200).send({
-            title:poll.title,
-            options:poll.options,
-            pollId:poll.id
-        })
+        res.status(200).send(poll)
     } catch(e) {
         res.status(400).send(e)
     }

@@ -48,8 +48,8 @@ createForm.addEventListener('submit',(e)=>{
         body: JSON.stringify(formData)
     }).then((response)=>{        
         if(response.status===201){
-            response.json().then((data)=>{
-                window.location.href = '../polls/' + data.id
+            response.json().then((poll)=>{
+                window.location.href = '../polls/' + poll.id
             })
         }else{
             message.textContent='Could not create poll, please check your internet connection.'
