@@ -3,10 +3,10 @@
     for(var i = 0; i < options.length; i++){
         var option = options[i].option
         var votes = options[i].votes
-        html+='\n<div>'
-        html+='\n<input id="'+option+'" type="radio" name="option" value="'+option+'">'
-        html+='\n<label for="'+option+'">'+option+' - <span id="'+option+'-votes">'+votes+'</span> votes</label>'
-        html+='\n</div>'
+        html+='<div>'
+        html+='<input id="'+option+'" type="radio" name="option" value="'+option+'">'
+        html+='<label for="'+option+'">'+option+' - <span id="'+option+'-votes">'+votes+'</span> votes</label>'
+        html+='</div>'
     }
     return document.querySelector('#options').innerHTML=html
 })()
@@ -15,7 +15,7 @@ const voteForm = document.querySelector('form')
 const message = document.querySelector('#message')
 const copyUrl = document.querySelector('#copyUrl')
 const urlText = document.querySelector('#urlText')
-const socket = io()
+const socketio = io()
 
 urlText.value=window.location.href
 
@@ -49,21 +49,21 @@ voteForm.addEventListener('submit',(e)=>{
         }
         response.json().then((data)=>{
             // Send updated options to server
-            socket.emit('vote',{
+            socketio.emit('vote',{
                 options:data.options
             })
         })
     })
 })
 
-socket.on('vote',(data)=>{
+socketio.on('vote',(data)=>{
     var options = data.options
     for(var i = 0; i < options.length; i++){
         document.getElementById(options[i].option+'-votes').textContent=options[i].votes
     }
 })
 
-socket.emit('join',pollId)
+socketio.emit('join',pollId)
 
 copyUrl.addEventListener('click',()=>{
     urlText.select()
