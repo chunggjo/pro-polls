@@ -10,12 +10,27 @@ createForm.addEventListener('submit',(e)=>{
     let formData = {}
     let optionObjects = []
 
-    // Create form data
     const title = document.getElementById('pollTitle').value
-    const optionInputs = document.getElementsByClassName('option')
+    const optionInputs = document.getElementsByName('option')
+    const optionsArray = []
+
+    // Check for valid form data
     for(let i = 0; i <  optionInputs.length; i++){
+        if(optionInputs[i].value===''){
+            return message.textContent='Please make sure all fields are filled then try again.'
+        }
+        optionsArray.push(optionInputs[i].value)
+    }
+    
+    const uniqueOptions = [...new Set(optionsArray)]
+    if(uniqueOptions.length < getOptionCount()){
+        return message.textContent='Please make sure all options are unique then try again.'
+    }
+
+    // Create form data
+    for(let i = 0; i <  optionsArray.length; i++){
         const obj = {
-            "option": optionInputs[i].value,
+            "option": optionsArray[i],
             "votes":0
         }
         optionObjects.push(obj)
@@ -37,7 +52,7 @@ createForm.addEventListener('submit',(e)=>{
                 window.location.href = '../polls/' + data.id
             })
         }else{
-            message.textContent='Please fill in all the fields and try again.'
+            message.textContent='Could not create poll, please check your internet connection.'
         }
     })
 })
@@ -64,7 +79,7 @@ addOptionButton.addEventListener('click',()=>{
     optionCount++
     var html='<div id="'+optionCount+'">'
     html+='<label for="option-'+optionCount+'">Option '+optionCount+'&nbsp;</label>'
-    html+='<input type="text" class="option create-input" name="option-'+optionCount+'">'
+    html+='<input id="option-'+optionCount+'" type="text" class="option create-input" name="option">'
     html+='</div>'
 
     $('#options').append(html)

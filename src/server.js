@@ -5,6 +5,7 @@ const expbs = require('express-handlebars')
 require('./db/mongoose')
 const Poll = require('./models/poll')
 const socketio = require('socket.io')
+const {addUser,removeUser,getUser} = require('./utils/users')
 const requestIp = require('request-ip')
 const ip = require('ip')
 
@@ -18,27 +19,11 @@ const publicDirectoryPath = path.join(__dirname,'../public')
 const hbs = expbs.create({
     defaultLayout:'main',
     helpers:{
-        // createPollForm: function(value){
-        //     var out = ''
-        //     for(var i = 0; i < value.length; i++){
-        //         var option = value[i].option
-        //         var votes = value[i].votes
-        //         out+='\n<div>'
-        //         out+='\n<input id="'+option+'" type="radio" name="option" value="'+option+'">'
-        //         out+='\n<label for="'+option+'">'+option+' - <span id="'+option+'-votes">'+votes+'</span> votes</label>'
-        //         out+='\n</div>'
-        //     }
-        //     return out+'\n'
-        // },
         json:function(value){
             return JSON.stringify(value)
         }
     }
 })
-
-// app.engine('handlebars',expbs({
-//     defaultLayout:'main'
-// }))
 
 app.engine('handlebars',hbs.engine)
 app.set('view engine','handlebars')
@@ -138,35 +123,22 @@ app.get('*',(req,res)=>{
     })
 })
 
-const users = []
-
 io.on('connection', (socket)=>{
-    console.log('New WebSocket Connection')
-
     socket.on('join',(pollId)=>{
-        const user = {
-            id: socket.id,
-            pollId
-        }
-        users.push(user)
+        const user = addUser(socket.id,pollId)
 
-        socket.join(user.pollId,function(){
-            console.log("Socket now in rooms", socket.rooms)
-        })
+        socket.join(user.pollId)
     })
 
     socket.on('vote',(data)=>{
-        const user = users.find((user) => user.id === socket.id)
-        // socket.broadcast.to(user.pollId).emit(data)
+        const user = getUser(socket.id)
+
+        // Show updated options to users
         io.to(user.pollId).emit('vote', data)
     })
 
     socket.on('disconnect',()=>{
-        const index = users.findIndex((user) => user.id === socket.id)
-
-        if (index !== -1) {
-            users.splice(index, 1)[0]
-        }
+        removeUser(socket.id)
     })
 })
 

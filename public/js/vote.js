@@ -43,10 +43,13 @@ voteForm.addEventListener('submit',(e)=>{
     }).then((response)=>{
         if(response.status===200){ 
             message.innerHTML='Thanks for voting! <img src="../img/feelsgoodman.png" width="25px">'
+            $('#voteButton').hide()
         } else if(response.status===400){
             message.textContent='You\'ve already voted on this poll'
+            $('#voteButton').hide()
         }
         response.json().then((data)=>{
+            // Send updated options to server
             socket.emit('vote',{
                 options:data.options
             })
@@ -60,8 +63,7 @@ socket.on('vote',(data)=>{
         document.querySelector('#'+options[i].option+'-votes').textContent=options[i].votes
     }
 })
-
-socket.emit('join',JSON.parse(pollId))
+socket.emit('join',pollId)
 
 copyUrl.addEventListener('click',()=>{
     urlText.select()

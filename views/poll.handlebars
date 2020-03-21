@@ -9,10 +9,8 @@
 
                 <h2 class="animated fadeInDown">{{pollTitle}}</h2> 
                 <form>
-
                     <div id='options'>
-                        {{!-- {{#createPollForm options}}
-                        {{/createPollForm}} --}}
+
                     </div>
                     <div> <button class="submit-button animated fadeInUp" id="voteButton">Vote</button> </div>
                 </form>
@@ -27,6 +25,6 @@
     </div>
 <script>
     var options = '{{{json options}}}'
-    const pollId = '{{{json pollId}}}'
+    const pollId = '{{json pollId}}'
 </script>
 <script src='/js/vote.js'></script>
