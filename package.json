@@ -1,11 +1,11 @@
 {
-  "name": "anon-vote",
+  "name": "pro-polls",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js -e handlebars,js"
+    "dev": "env-cmd -f ./config/dev.env nodemon src/server.js -e handlebars,js,json"
   },
   "keywords": [],
   "author": "",
@@ -18,9 +18,11 @@
     "mongodb": "^3.5.4",
     "mongoose": "^5.9.3",
     "mongoose-sequence": "^5.2.2",
-    "request-ip": "^2.1.3"
+    "request-ip": "^2.1.3",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "nodemon": "^2.0.2"
   }
 }

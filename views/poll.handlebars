@@ -1,3 +1,4 @@
+
 <section id="hero" class="d-flex justify-cntent-center align-items-center">
     
     <div id="heroCarousel" class="container carousel carousel-fade" data-ride="carousel">
@@ -6,26 +7,25 @@
 
             <div class="carousel-container">
 
-                <h2 class="animated fadeInDown">{{pollTitle}}</h2> 
+                <h2 class="animated fadeInDown">{{poll.title}}</h2> 
                 <form>
+                    <div id='options'>
 
-                    <div>
-
-                        {{#createPollForm options}}
-                        {{/createPollForm}}
-                        <div> <button class="submit-button animated fadeInUp" id="voteButton">Vote</button> </div>
-                    
                     </div>
-
+                    <div> <button class="submit-button animated fadeInUp" id="voteButton">Vote</button> </div>
                 </form>
                 <p id="message"></p>
                 <button class="submit-button animated fadeInUp" id='copyUrl'>Copy link</button>
-                <input class = "create-input option animated fadeInUp" type="text" id="urlText">
+                <input class = "create-input option animated fadeInUp" type="text" id="urlText" readonly>
 
             </div>
 
         </div>
 
     </div>
-
+<script>
+    const options = JSON.parse('{{{json poll.options}}}')
+    const pollId = '{{json poll.id}}'
+</script>
 <script src='/js/vote.js'></script>
+<script src='/js/copyUrl.js'></script>

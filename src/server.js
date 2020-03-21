@@ -1,33 +1,30 @@
-const path = require('path')
-const express = require('express')
-const app = express()
-const expbs = require('express-handlebars')
+const path = require('path'),
+http = require('http')
+const express = require('express'),
+expbs = require('express-handlebars')
 require('./db/mongoose')
 const Poll = require('./models/poll')
-const requestIp = require('request-ip')
-const ip = require('ip')
+const socketio = require('socket.io'),
+{addUser,removeUser,getUser} = require('./utils/users')
+const requestIp = require('request-ip'),
+    ip = require('ip')
 
-const port = process.env.PORT || 3000
+const app = express()
+const server = http.createServer(app),
+io = socketio(server)
 
-const publicDirectoryPath = path.join(__dirname,'../public')
+const port = process.env.PORT,
+publicDirectoryPath = path.join(__dirname,'../public')
 
 const hbs = expbs.create({
     defaultLayout:'main',
     helpers:{
-        createPollForm: function(value){
-            var out = ''
-            for(var i = 0; i < value.length; i++){
-                var option = value[i].option
-                var votes = value[i].votes
-                out+='\n<div>'
-                out+='\n<input id="'+option+'" type="radio" name="option" value="'+option+'">'
-                out+='\n<label for="'+option+'">'+option+' - '+votes+' votes</label>'
-                out+='\n</div>'
-            }
-            return out+'\n'
+        json:function(value){
+            return JSON.stringify(value)
         }
     }
 })
+
 app.engine('handlebars',hbs.engine)
 app.set('view engine','handlebars')
 
@@ -38,14 +35,14 @@ app.use(requestIp.mw())
 
 app.get('/',(req,res)=>{
     res.render('index',{
-        pageTitle:'AnonVote - Home',
-        headerText:'Welcome to AnonVote!'
+        pageTitle:'Pro Polls - Home',
+        headerText:'Welcome to Pro Polls!'
     })
 })
 
 app.get('/create',(req,res)=>{
     res.render('create',{
-        pageTitle:'AnonVote - Create',
+        pageTitle:'Pro Polls - Create',
         headerText:'Create a Poll'
     })
 })
@@ -54,11 +51,7 @@ app.post('/create',async(req,res)=>{
     const poll = new Poll(req.body)
 
     poll.save().then(()=>{
-        res.status(201).send({
-            title:poll.title,
-            options:poll.options,
-            id:poll.id
-        })
+        res.status(201).send(poll)
     }).catch((e)=>{
         res.status(400).send(e)
     })
@@ -70,16 +63,15 @@ app.get('/polls/:id',async(req,res)=>{
 
         if(!poll){
             return res.status(404).render('404',{
-                pageTitle:'AnonVote - Poll not found',
+                pageTitle:'Pro Polls - Poll not found',
                 headerText:'404 - Poll not found'
             })
         }
 
         res.render('poll',{
-            pageTitle:'AnonVote - Vote',
+            pageTitle:'Pro Polls - Vote',
             headerText:'Vote!',
-            pollTitle:poll.title,
-            options:poll.options
+            poll
         })
     }catch(e){
         res.status(500).send()
@@ -96,7 +88,6 @@ app.patch('/polls/:id',async(req,res)=>{
     
         // Check ip for possible duplicate vote
         const clientIp = ip.toBuffer(req.clientIp)
-        // const existingIp = poll.voters.find(o=>ip.toString(o.ip_buffer) === ip.toString(clientIp)
         const existingIpIndex = poll.voters.map(x=>ip.toString(x.ip_buffer)).indexOf(ip.toString(clientIp))
         if(existingIpIndex !== -1) {
             return res.status(400).send()
@@ -109,11 +100,7 @@ app.patch('/polls/:id',async(req,res)=>{
 
         await poll.save()
 
-        res.status(200).send({
-            title:poll.title,
-            options:poll.options,
-            id:poll.id
-        })
+        res.status(200).send(poll)
     } catch(e) {
         res.status(400).send(e)
     }
@@ -121,11 +108,32 @@ app.patch('/polls/:id',async(req,res)=>{
 
 app.get('*',(req,res)=>{
     res.render('404',{
-        pageTitle:'AnonVote - Page not found',
-        headerText:'404 - Page not found'
+        pageTitle:'Pro Polls - Page not found',
+        headerText:'404 - Page not found',
+        errorMessage:''
     })
 })
 
-app.listen(port, ()=>{
+io.on('connection', (socket)=>{
+    socket.on('join',(pollId)=>{
+        const user = addUser(socket.id,pollId)
+
+        socket.join(user.pollId)
+    })
+
+    socket.on('vote',(data)=>{
+        const user = getUser(socket.id)
+
+        // Show updated options to users
+        io.to(user.pollId).emit('vote', data)
+    })
+
+    socket.on('disconnect',()=>{
+        removeUser(socket.id)
+    })
+})
+
+server.listen(port, ()=>{
     console.log('Server is up on port ' + port)
 })
+
