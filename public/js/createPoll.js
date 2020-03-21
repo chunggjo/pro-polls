@@ -11,10 +11,12 @@ createForm.addEventListener('submit',(e)=>{
     let optionObjects = []
 
     const title = document.getElementById('pollTitle').value
+    if(title==='') return message.textContent='Please make sure all fields are filled then try again.'
     const optionInputs = document.getElementsByName('option')
     const optionsArray = []
 
     // Check for valid form data
+
     for(let i = 0; i <  optionInputs.length; i++){
         if(optionInputs[i].value===''){
             return message.textContent='Please make sure all fields are filled then try again.'
