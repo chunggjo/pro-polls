@@ -18,23 +18,8 @@ const PollSchema = new Schema({
             type:Number,
             required:true
         }
-    }],
-    voters:[{
-        ip_buffer:{
-            type:Buffer,
-            required: true,
-        }
     }]
 })
-
-PollSchema.methods.toJSON = function(){
-    const poll = this
-    const pollObject = poll.toObject()
-
-    delete pollObject.voters
-
-    return pollObject
-}
 
 PollSchema.plugin(AutoIncrement,{inc_field:'id'})
 const Poll = mongoose.model('Poll',PollSchema)

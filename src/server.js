@@ -2,12 +2,13 @@ const path = require('path'),
 http = require('http')
 const express = require('express'),
 expbs = require('express-handlebars')
+const session = require('express-session'),
+MongoStore = require('connect-mongo')(session),
+mongoose = require('mongoose')
 require('./db/mongoose')
 const Poll = require('./models/poll')
 const socketio = require('socket.io'),
 {addUser,removeUser,getUser} = require('./utils/users')
-const requestIp = require('request-ip'),
-    ip = require('ip')
 
 const app = express()
 const server = http.createServer(app),
@@ -15,6 +16,21 @@ io = socketio(server)
 
 const port = process.env.PORT,
 publicDirectoryPath = path.join(__dirname,'../public')
+
+// session
+const sess = {
+    secret: process.env.SESSION,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {},
+    store: new MongoStore({ mongooseConnection: mongoose.connections[0] })
+}
+if (app.get('env') === 'production') {
+    app.set('trust proxy', 1) // trust first proxy
+    sess.cookie.secure = true; // serve secure cookies
+    sess.cookie.maxAge = 1000 * 60 * 60 * 14; //14 days
+}
+app.use(session(sess));
 
 const hbs = expbs.create({
     defaultLayout:'main',
@@ -30,8 +46,6 @@ app.set('view engine','handlebars')
 
 app.use(express.static(publicDirectoryPath))
 app.use(express.json())
-
-app.use(requestIp.mw())
 
 app.get('/',(req,res)=>{
     res.render('index',{
@@ -81,20 +95,21 @@ app.get('/polls/:id',async(req,res)=>{
 app.patch('/polls/:id',async(req,res)=>{
     try {
         const poll = await Poll.findOne({id: req.params.id})
-        
+
         if(!poll){
             return res.status(404).send()
         }
-    
-        // Check ip for possible duplicate vote
-        const clientIp = ip.toBuffer(req.clientIp)
-        const existingIpIndex = poll.voters.map(x=>ip.toString(x.ip_buffer)).indexOf(ip.toString(clientIp))
-        if(existingIpIndex !== -1) {
+        
+        if(!req.session.sessionVotes){
+            req.session.sessionVotes=[]
+        }
+        const sessionVotes = req.session.sessionVotes
+        const voteExists = sessionVotes.indexOf(req.params.id)
+        if(voteExists!==-1){
             return res.status(400).send()
         }
+        req.session.sessionVotes.push(req.params.id)
 
-        poll.voters.push({'ip_buffer':clientIp})
-        
         const option = poll.options.find(o => o.option === req.body.option)
         option.votes+=1
 

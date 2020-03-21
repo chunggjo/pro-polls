@@ -10,6 +10,7 @@
     }
     return document.querySelector('#options').innerHTML=html
 })()
+document.querySelector("input").checked=true
 
 const voteForm = document.querySelector('form')
 const message = document.querySelector('#message')
@@ -20,7 +21,7 @@ voteForm.addEventListener('submit',(e)=>{
     let selectedOption = ''
 
     e.preventDefault()
-    
+
     const options = document.getElementsByName('option')
     for(let i = 0; i < options.length; i++) {
         if(options[i].checked){
@@ -40,7 +41,7 @@ voteForm.addEventListener('submit',(e)=>{
             message.innerHTML='Thanks for voting! <img src="../img/feelsgoodman.png" width="25px">'
             $('#voteButton').hide()
         } else if(response.status===400){
-            message.textContent='You\'ve already voted on this poll'
+            message.textContent="You've already voted on this poll"
             $('#voteButton').hide()
         }
         response.json().then((data)=>{
