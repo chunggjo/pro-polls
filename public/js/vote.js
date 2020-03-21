@@ -60,9 +60,10 @@ voteForm.addEventListener('submit',(e)=>{
 socket.on('vote',(data)=>{
     var options = data.options
     for(var i = 0; i < options.length; i++){
-        document.querySelector('#'+options[i].option+'-votes').textContent=options[i].votes
+        document.getElementById(options[i].option+'-votes').textContent=options[i].votes
     }
 })
+
 socket.emit('join',pollId)
 
 copyUrl.addEventListener('click',()=>{
