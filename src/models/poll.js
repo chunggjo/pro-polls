@@ -8,17 +8,28 @@ const PollSchema = new Schema({
         required:true,
         trim:true
     },
-    options:[{
-        option:{
-            type:String,
-            required:true,
-            trim:true
-        },
-        votes:{
-            type:Number,
-            required:true
+    options:{
+        type:[{
+            option:{
+                type:String,
+                required:true,
+                trim:true
+            },
+            votes:{
+                type:Number,
+                required:true
+            }
+        }],
+        validate(value){
+            if(value.length>8){
+                throw new Error('options exceeds the limit of 8')
+            }
+            options = value.map(obj=>obj.option)
+            if((new Set(options)).size !== options.length){
+                throw new Error('options must be unique')
+            }
         }
-    }]
+    }
 })
 
 PollSchema.plugin(AutoIncrement,{inc_field:'id'})
