@@ -70,11 +70,12 @@ app.get('/create',(req,res)=>{
 app.post('/create',async(req,res)=>{
     const poll = new Poll(req.body)
 
-    poll.save().then(()=>{
+    try{
+        await poll.save()
         res.status(201).send(poll)
-    }).catch((e)=>{
+    }catch(e){
         res.status(400).send(e)
-    })
+    }
 })
 
 app.get('/polls/:id',async(req,res)=>{
@@ -130,7 +131,7 @@ app.patch('/polls/:id',async(req,res)=>{
 
         await poll.save()
 
-        res.status(200).send(poll)
+        res.send(poll)
     } catch(e) {
         res.status(400).send(e)
     }
