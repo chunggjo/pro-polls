@@ -11,28 +11,12 @@ createForm.addEventListener('submit',(e)=>{
     let optionObjects = []
 
     const title = document.getElementById('pollTitle').value
-    if(title==='') return message.textContent='Please make sure all fields are filled then try again.'
     const optionInputs = document.getElementsByName('option')
-    const optionsArray = []
-
-    // Check for valid form data
-
-    for(let i = 0; i <  optionInputs.length; i++){
-        if(optionInputs[i].value===''){
-            return message.textContent='Please make sure all fields are filled then try again.'
-        }
-        optionsArray.push(optionInputs[i].value)
-    }
-    
-    const uniqueOptions = [...new Set(optionsArray)]
-    if(uniqueOptions.length < getOptionCount()){
-        return message.textContent='Please make sure all options are unique then try again.'
-    }
 
     // Create form data
-    for(let i = 0; i <  optionsArray.length; i++){
+    for(let i = 0; i <  optionInputs.length; i++){
         const obj = {
-            "option": optionsArray[i],
+            "option": optionInputs[i].value,
             "votes":0
         }
         optionObjects.push(obj)
@@ -48,13 +32,13 @@ createForm.addEventListener('submit',(e)=>{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify(formData)
-    }).then((response)=>{        
+    }).then((response)=>{    
         if(response.status===201){
             response.json().then((poll)=>{
                 window.location.href = '../polls/' + poll.id
             })
-        }else{
-            message.textContent='Could not create poll, please check your internet connection.'
+        }else if(response.status===400){
+            message.textContent='Could not create poll. Please check all fields are filled and options are unique.'
         }
     })
 })
