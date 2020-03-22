@@ -48,9 +48,15 @@ app.use(express.static(publicDirectoryPath))
 app.use(express.json())
 
 app.get('/',(req,res)=>{
+    let newUser=true
+    if(req.session.viewedPolls){
+        newUser=false
+    }
     res.render('index',{
         pageTitle:'Pro Polls - Home',
-        headerText:'Welcome to Pro Polls!'
+        headerText:'Welcome to Pro Polls!',
+        viewedPolls:req.session.viewedPolls,
+        newUser
     })
 })
 
@@ -82,6 +88,18 @@ app.get('/polls/:id',async(req,res)=>{
             })
         }
 
+        //  viewed polls
+        if(!req.session.viewedPolls) req.session.viewedPolls=[]
+        const viewedPolls = req.session.viewedPolls
+        const pollIndex = viewedPolls.map(obj=>obj.id).indexOf(req.params.id)
+        if(pollIndex===-1){
+            viewedPolls.unshift({id:req.params.id,title:poll.title})
+            if(viewedPolls.length>5) viewedPolls.pop()
+        }else{
+            viewedPolls.splice(pollIndex,1)
+            viewedPolls.unshift({id:req.params.id,title:poll.title})
+        }
+
         res.render('poll',{
             pageTitle:'Pro Polls - Vote',
             headerText:'Vote!',
@@ -100,12 +118,9 @@ app.patch('/polls/:id',async(req,res)=>{
             return res.status(404).send()
         }
         
-        if(!req.session.sessionVotes){
-            req.session.sessionVotes=[]
-        }
+        if(!req.session.sessionVotes) req.session.sessionVotes=[]
         const sessionVotes = req.session.sessionVotes
-        const voteExists = sessionVotes.indexOf(req.params.id)
-        if(voteExists!==-1){
+        if(sessionVotes.indexOf(req.params.id)!==-1){
             return res.status(400).send()
         }
         req.session.sessionVotes.push(req.params.id)
