@@ -12,4 +12,5 @@ MONGODB_URL=mongodb://127.0.0.1:27017/pro-polls-api
 NODE_ENV=development
 SESSION=keyboard cat
 ```
-5. npm run dev
+5. Make sure mongod is running
+6. npm run dev
