@@ -1,17 +1,3 @@
-(function createPollForm(){
-    var html = ''
-    for(var i = 0; i < options.length; i++){
-        var option = options[i].option
-        var votes = options[i].votes
-        html+='<div>'
-        html+='<input id="'+option+'" type="radio" name="option" value="'+option+'">'
-        html+='<label for="'+option+'">'+option+' - <span id="'+option+'-votes">'+votes+'</span> votes</label>'
-        html+='</div>'
-    }
-    return document.querySelector('#options').innerHTML=html
-})()
-document.querySelector("input").checked=true
-
 const voteForm = document.querySelector('form')
 const message = document.querySelector('#message')
 const socketio = io()
@@ -30,7 +16,7 @@ voteForm.addEventListener('submit',(e)=>{
     }
 
     // Send patch request with selected option
-    fetch('/polls/'+pollId, {
+    fetch('/polls/'+poll.id, {
         method:'PATCH',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify({
@@ -60,4 +46,4 @@ socketio.on('vote',(data)=>{
     }
 })
 
-socketio.emit('join',pollId)
+socketio.emit('join',poll.id)

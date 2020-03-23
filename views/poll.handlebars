@@ -24,8 +24,30 @@
 
     </div>
 <script>
-    const options = JSON.parse('{{{json poll.options}}}')
-    const pollId = '{{json poll.id}}'
+    const poll = (function(){
+        const options = JSON.parse('{{{json poll.options}}}')
+        const pollId = '{{poll.id}}'
+
+        let html = ''
+        for(let i = 0; i < options.length; i++){
+            let option = options[i].option
+            let votes = options[i].votes
+            html+='<div>'
+            html+='<input id="'+option+'" type="radio" name="option" value="'+option+'">'
+            html+='<label for="'+option+'">'+option+' - <span id="'+option+'-votes">'+votes+'</span> votes</label>'
+            html+='</div>'
+        }
+        
+        return {
+            options,
+            id:pollId,
+            html
+        }
+    })()
+
+    document.querySelector('#options').innerHTML=poll.html
+    document.querySelector("input").checked=true
 </script>
+
 <script src='/js/vote.js'></script>
 <script src='/js/copyUrl.js'></script>
