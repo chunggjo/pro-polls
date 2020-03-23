@@ -39,6 +39,10 @@ const PollSchema = new Schema({
 PollSchema.pre('save', async function(next){
     const poll = this
 
+    if(poll.isNew){
+        return next()
+    }
+    
     if(poll.isModified('options')){
         poll.totalVotes++
     }
