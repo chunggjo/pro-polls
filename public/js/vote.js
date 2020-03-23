@@ -39,11 +39,21 @@ voteForm.addEventListener('submit',(e)=>{
     })
 })
 
+const totalVotes = ()=>{
+    let totalVotes = 0
+    for(let i=0; i<poll.options.length;i++){
+        totalVotes += Number(document.getElementById(poll.options[i].option+'-votes').textContent)
+    }
+    return totalVotes
+}
+document.querySelector('#totalVotes').textContent=totalVotes()
+
 socketio.on('vote',(data)=>{
     var options = data.options
     for(var i = 0; i < options.length; i++){
         document.getElementById(options[i].option+'-votes').textContent=options[i].votes
     }
+    document.querySelector('#totalVotes').textContent=totalVotes()
 })
 
 socketio.emit('join',poll.id)

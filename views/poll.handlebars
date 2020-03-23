@@ -14,6 +14,7 @@
                     </div>
                     <div> <button class="submit-button animated fadeInUp" id="voteButton">Vote</button> </div>
                 </form>
+                <p>Total votes: <span id="totalVotes"></span></p>
                 <p id="message"></p>
                 <button class="submit-button animated fadeInUp" id='copyUrl'>Copy link</button>
                 <input class = "create-input option animated fadeInUp" type="text" id="urlText" readonly>
@@ -37,7 +38,7 @@
             html+='<label for="'+option+'">'+option+' - <span id="'+option+'-votes">'+votes+'</span> votes</label>'
             html+='</div>'
         }
-        
+
         return {
             options,
             id:pollId,
