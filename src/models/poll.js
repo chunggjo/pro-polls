@@ -29,7 +29,21 @@ const PollSchema = new Schema({
                 throw new Error('options must be unique')
             }
         }
+    },
+    totalVotes:{
+        type:Number,
+        required:true
     }
+})
+
+PollSchema.pre('save', async function(next){
+    const poll = this
+
+    if(poll.isModified('options')){
+        poll.totalVotes++
+    }
+
+    next()
 })
 
 PollSchema.plugin(AutoIncrement,{inc_field:'id'})

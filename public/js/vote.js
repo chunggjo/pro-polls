@@ -33,27 +33,19 @@ voteForm.addEventListener('submit',(e)=>{
         response.json().then((data)=>{
             // Send updated options to server
             socketio.emit('vote',{
-                options:data.options
+                options:data.options,
+                totalVotes:data.totalVotes
             })
         })
     })
 })
-
-const showTotalVotes = ()=>{
-    let totalVotes = 0
-    for(let i=0; i<poll.options.length;i++){
-        totalVotes += Number(document.getElementById(poll.options[i].option+'-votes').textContent)
-    }
-    return document.querySelector('#totalVotes').textContent=totalVotes
-}
-showTotalVotes()
 
 socketio.on('vote',(data)=>{
     var options = data.options
     for(var i = 0; i < options.length; i++){
         document.getElementById(options[i].option+'-votes').textContent=options[i].votes
     }
-    showTotalVotes()
+    document.querySelector('#totalVotes').textContent=data.totalVotes
 })
 
 socketio.emit('join',poll.id)

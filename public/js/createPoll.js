@@ -24,7 +24,8 @@ createForm.addEventListener('submit',(e)=>{
     formData = {
         "title":title,
         "options":optionObjects,
-        "voters":[]
+        "voters":[],
+        "totalVotes":-1
     }
 
     // Post form data
