@@ -1,5 +1,5 @@
 # Pro Polls
-Straw poll app made with node.js, express.js, mongodb, mongoose, socket.io, and chart.js.
+Real-time voting app made with node.js, express.js, mongodb, mongoose, socket.io, and chart.js.
 
 Steps to run:
 1. Clone or download this repository

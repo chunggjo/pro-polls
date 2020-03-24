@@ -33,12 +33,22 @@ if (app.get('env') === 'production') {
 app.use(session(sess))
 
 const hbs = expbs.create({
+<<<<<<< HEAD
 	defaultLayout: 'main',
 	helpers: {
 		json: function(value) {
 			return JSON.stringify(value)
 		}
 	}
+=======
+    defaultLayout:'main',
+    helpers:{
+        json:function(value){
+            // TODO: bug when user puts double quotes in an option
+            return JSON.stringify(value).replace(/'/g, "\\'")
+        }
+    }
+>>>>>>> 320c993b6b6b3cbab74b780ebbc12ddfd8466e5a
 })
 
 app.engine('handlebars', hbs.engine)
