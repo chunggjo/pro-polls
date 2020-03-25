@@ -6,8 +6,8 @@
         <div class="carousel-item active">
 
             <div class="carousel-container">
-
                 <h2 class="animated fadeInDown">{{poll.title}}</h2> 
+                <p>ID: <span id="pollId">{{poll.id}}</span></p>
                 <form>
                     <div id='options'>
 
@@ -18,7 +18,7 @@
                 <p id="message"></p>
                 <button class="submit-button animated fadeInUp" id='copyUrl'>Copy link</button>
                 <input class = "create-input option animated fadeInUp" type="text" id="urlText" readonly>
-
+                <input type="text" id='optionsData' value='{{json poll.options}}' hidden readonly>
             </div>
 
         </div>
@@ -26,12 +26,12 @@
     </div>
 <script>
     const poll = (function(){
-        const options = JSON.parse('{{{json poll.options}}}')
-        const pollId = '{{poll.id}}'
+        const options = JSON.parse(document.getElementById('optionsData').value)
+        const pollId = document.getElementById('pollId').textContent
 
         let html = ''
         for(let i = 0; i < options.length; i++){
-            let option = options[i].option
+            let option = options[i].option.replace(/["]+/g, '') // TODO: temporary solution, removes double quotes from string to prevent bug
             let votes = options[i].votes
             html+='<div>'
             html+='<input id="'+option+'" type="radio" name="option" value="'+option+'">'

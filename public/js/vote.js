@@ -14,7 +14,7 @@ voteForm.addEventListener('submit',(e)=>{
             selectedOption = options[i].value
         }
     }
-
+    console.log(selectedOption)
     // Send patch request with selected option
     fetch('/polls/'+poll.id, {
         method:'PATCH',
@@ -41,8 +41,8 @@ voteForm.addEventListener('submit',(e)=>{
 })
 
 socketio.on('vote',(data)=>{
-    var options = data.options
-    for(var i = 0; i < options.length; i++){
+    let options = data.options
+    for(let i = 0; i < options.length; i++){
         document.getElementById(options[i].option+'-votes').textContent=options[i].votes
     }
     document.querySelector('#totalVotes').textContent=data.totalVotes
