@@ -36,8 +36,7 @@ const hbs = expbs.create({
 	defaultLayout: 'main',
 	helpers: {
 		json: function(value) {
-			// TODO: bug when user puts double quotes in an option
-			return JSON.stringify(value).replace(/'/g, "\\'")
+			return JSON.stringify(value)
 		}
 	}
 })
