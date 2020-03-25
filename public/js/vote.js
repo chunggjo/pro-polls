@@ -6,6 +6,42 @@ const chartLabels = []
 const chartValues = []
 const voteOptions = document.getElementsByName('option')
 
+voteForm.addEventListener('submit', e => {
+	let selectedOption = ''
+
+	e.preventDefault()
+
+	for (let i = 0; i < voteOptions.length; i++) {
+		if (voteOptions[i].checked) {
+			selectedOption = voteOptions[i].value
+		}
+	}
+	// Send patch request with selected option
+	fetch('/polls/' + poll.id, {
+		method: 'PATCH',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			option: selectedOption
+		})
+	}).then(response => {
+		if (response.status === 200) {
+			message.innerHTML =
+				'Thanks for voting! <img src="../img/feelsgoodman.png" width="25px">'
+			$('#voteButton').hide()
+		} else if (response.status === 400) {
+			message.textContent = "You've already voted on this poll"
+			$('#voteButton').hide()
+		}
+		response.json().then(data => {
+			// Send updated options to server
+			socketio.emit('vote', {
+				options: data.options,
+				totalVotes: data.totalVotes
+			})
+		})
+	})
+})
+
 // Loop to create arrays for labels and their values
 for (let i = 0; i < voteOptions.length; i++) {
 	chartLabels.push(voteOptions[i].value)
@@ -61,42 +97,6 @@ const pollChart = new Chart(ctx, {
 	}
 })
 // END GRAPH SECTION
-
-voteForm.addEventListener('submit', e => {
-	let selectedOption = ''
-
-	e.preventDefault()
-
-	for (let i = 0; i < voteOptions.length; i++) {
-		if (voteOptions[i].checked) {
-			selectedOption = voteOptions[i].value
-		}
-	}
-	// Send patch request with selected option
-	fetch('/polls/' + poll.id, {
-		method: 'PATCH',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({
-			option: selectedOption
-		})
-	}).then(response => {
-		if (response.status === 200) {
-			message.innerHTML =
-				'Thanks for voting! <img src="../img/feelsgoodman.png" width="25px">'
-			$('#voteButton').hide()
-		} else if (response.status === 400) {
-			message.textContent = "You've already voted on this poll"
-			$('#voteButton').hide()
-		}
-		response.json().then(data => {
-			// Send updated options to server
-			socketio.emit('vote', {
-				options: data.options,
-				totalVotes: data.totalVotes
-			})
-		})
-	})
-})
 
 socketio.on('vote', data => {
 	let options = data.options
