@@ -31,7 +31,7 @@
 
         let html = ''
         for(let i = 0; i < options.length; i++){
-            let option = options[i].option.replace(/["]+/g, '&quot;') // TODO: temporary solution, removes double quotes from string to prevent bug
+            let option = options[i].option.replace(/["]+/g, '&quot;')
             let votes = options[i].votes
             html+='<div>'
             html+='<input id="'+option+'" type="radio" name="option" value="'+option+'">'
