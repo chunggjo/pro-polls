@@ -105,6 +105,7 @@ app.get('/polls/:id',async(req,res)=>{
         res.render('poll',{
             pageTitle:'Pro Polls - Vote',
             headerText:'Vote!',
+            description:poll.title +' - Vote Now!',
             poll
         })
     }catch(e){
