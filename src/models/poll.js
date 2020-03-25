@@ -17,7 +17,8 @@ const PollSchema = new Schema({
             },
             votes:{
                 type:Number,
-                required:true
+                required:true,
+                default:0
             }
         }],
         validate(value){
@@ -32,7 +33,8 @@ const PollSchema = new Schema({
     },
     totalVotes:{
         type:Number,
-        required:true
+        required:true,
+        default:0
     }
 })
 
@@ -40,6 +42,12 @@ PollSchema.pre('save', async function(next){
     const poll = this
 
     if(poll.isNew){
+        poll.totalVotes = 0
+        // Ensure votes are zero when poll is new
+        options = poll.options
+        for(let i = 0; i < options.length; i++){
+            options[i].votes = 0
+        }
         return next()
     }
     

@@ -33,12 +33,12 @@ if (app.get('env') === 'production') {
 app.use(session(sess))
 
 const hbs = expbs.create({
-	defaultLayout: 'main',
-	helpers: {
-		json: function(value) {
-			return JSON.stringify(value)
-		}
-	}
+    defaultLayout:'main',
+    helpers:{
+        json:function(value){
+            return JSON.stringify(value)
+        }
+    }
 })
 
 app.engine('handlebars', hbs.engine)
