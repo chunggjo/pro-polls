@@ -1,13 +1,13 @@
-
+{{!-- TODO: make chart sync --}}
 <section id="hero" class="d-flex justify-cntent-center align-items-center">
-    
+
     <div id="heroCarousel" class="container carousel carousel-fade" data-ride="carousel">
 
         <div class="carousel-item active">
 
             <div class="carousel-container">
 
-                <h2 class="animated fadeInDown">{{poll.title}}</h2> 
+                <h2 class="animated fadeInDown">{{poll.title}}</h2>
                 <form>
                     <div id='options'>
 
@@ -17,37 +17,51 @@
                 <p>Total votes: <span id="totalVotes">{{poll.totalVotes}}</span></p>
                 <p id="message"></p>
                 <button class="submit-button animated fadeInUp" id='copyUrl'>Copy link</button>
-                <input class = "create-input option animated fadeInUp" type="text" id="urlText" readonly>
+                <input class="create-input option animated fadeInUp" type="text" id="urlText" readonly>
 
             </div>
 
         </div>
 
     </div>
+</section>
+<!-- ======= Graph Section ======= -->
+<section class="features">
+    <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+            <h2>Chart</h2>
+            <p>How do the results look like?</p>
+        </div>
+        <canvas id="pollChart" width="400" height="400"></canvas>
+    </div>
+</section>
+<!-- End Graph Section -->
+
+<script src='/js/chart.min.js'></script>
 <script>
-    const poll = (function(){
+    const poll = (function () {
         const options = JSON.parse('{{{json poll.options}}}')
         const pollId = '{{poll.id}}'
-
         let html = ''
-        for(let i = 0; i < options.length; i++){
+        for (let i = 0; i < options.length; i++) {
             let option = options[i].option
             let votes = options[i].votes
-            html+='<div>'
-            html+='<input id="'+option+'" type="radio" name="option" value="'+option+'">'
-            html+='<label for="'+option+'">'+option+' - <span id="'+option+'-votes">'+votes+'</span> votes</label>'
-            html+='</div>'
+            html += '<div>'
+            html += '<input id="' + option + '" type="radio" name="option" value="' + option + '">'
+            html += '<label for="' + option + '">' + option + ' - <span id="' + option + '-votes">' + votes + '</span> votes</label>'
+            html += '</div>'
         }
 
         return {
             options,
-            id:pollId,
+            id: pollId,
             html
         }
     })()
 
-    document.querySelector('#options').innerHTML=poll.html
-    document.querySelector("input").checked=true
+    document.querySelector('#options').innerHTML = poll.html
+    document.querySelector("input").checked = true
 </script>
 <script src='/js/jquery-3.4.1.min.js'></script>
 <script src='/js/vote.js'></script>
