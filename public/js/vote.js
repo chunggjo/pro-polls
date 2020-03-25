@@ -14,7 +14,6 @@ voteForm.addEventListener('submit',(e)=>{
             selectedOption = options[i].value
         }
     }
-    console.log(selectedOption)
     // Send patch request with selected option
     fetch('/polls/'+poll.id, {
         method:'PATCH',
