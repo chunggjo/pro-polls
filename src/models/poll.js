@@ -8,23 +8,46 @@ const PollSchema = new Schema({
         required:true,
         trim:true
     },
-    options:[{
-        option:{
-            type:String,
-            required:true,
-            trim:true
-        },
-        votes:{
-            type:Number,
-            required:true
+    options:{
+        type:[{
+            option:{
+                type:String,
+                required:true,
+                trim:true
+            },
+            votes:{
+                type:Number,
+                required:true
+            }
+        }],
+        validate(value){
+            if(value.length>8){
+                throw new Error('options exceeds the limit of 8')
+            }
+            options = value.map(obj=>obj.option)
+            if((new Set(options)).size !== options.length){
+                throw new Error('options must be unique')
+            }
         }
-    }],
-    voters:[{
-        ip_buffer:{
-            type:Buffer,
-            required: true,
-        }
-    }]
+    },
+    totalVotes:{
+        type:Number,
+        required:true
+    }
+})
+
+PollSchema.pre('save', async function(next){
+    const poll = this
+
+    if(poll.isNew){
+        return next()
+    }
+    
+    if(poll.isModified('options')){
+        poll.totalVotes++
+    }
+
+    next()
 })
 
 PollSchema.plugin(AutoIncrement,{inc_field:'id'})

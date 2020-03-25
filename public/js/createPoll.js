@@ -10,9 +10,10 @@ createForm.addEventListener('submit',(e)=>{
     let formData = {}
     let optionObjects = []
 
-    // Create form data
     const title = document.getElementById('pollTitle').value
-    const optionInputs = document.getElementsByClassName('option')
+    const optionInputs = document.getElementsByName('option')
+
+    // Create form data
     for(let i = 0; i <  optionInputs.length; i++){
         const obj = {
             "option": optionInputs[i].value,
@@ -23,21 +24,22 @@ createForm.addEventListener('submit',(e)=>{
     formData = {
         "title":title,
         "options":optionObjects,
-        "voters":[]
+        "voters":[],
+        "totalVotes":0
     }
 
     // Post form data
-    fetch(window.location.href,{
+    fetch('/create',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify(formData)
-    }).then((response)=>{        
+    }).then((response)=>{    
         if(response.status===201){
-            response.json().then((data)=>{
-                window.location.href = '../polls/' + data.id
+            response.json().then((poll)=>{
+                window.location.href = '../polls/' + poll.id
             })
-        }else{
-            message.textContent='Please fill in all the fields and try again.'
+        }else if(response.status===400){
+            message.textContent='Could not create poll. Please check all fields are filled and options are unique.'
         }
     })
 })
@@ -56,7 +58,7 @@ removeOptionButton.addEventListener('click',()=>{
 addOptionButton.addEventListener('click',()=>{
     let optionCount = getOptionCount()
 
-    const maxOptions = 16    
+    const maxOptions = 8    
     if(optionCount === maxOptions){
         return
     }
@@ -64,7 +66,7 @@ addOptionButton.addEventListener('click',()=>{
     optionCount++
     var html='<div id="'+optionCount+'">'
     html+='<label for="option-'+optionCount+'">Option '+optionCount+'&nbsp;</label>'
-    html+='<input type="text" class="option create-input" name="option-'+optionCount+'">'
+    html+='<input id="option-'+optionCount+'" type="text" class="option create-input" name="option">'
     html+='</div>'
 
     $('#options').append(html)
