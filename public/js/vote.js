@@ -67,10 +67,9 @@ voteForm.addEventListener('submit', e => {
 
 	e.preventDefault()
 
-	const options = document.getElementsByName('option')
-	for (let i = 0; i < options.length; i++) {
-		if (options[i].checked) {
-			selectedOption = options[i].value
+	for (let i = 0; i < voteOptions.length; i++) {
+		if (voteOptions[i].checked) {
+			selectedOption = voteOptions[i].value
 		}
 	}
 	// Send patch request with selected option
