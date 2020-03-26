@@ -5,7 +5,7 @@
         <div class="carousel-item active">
 
             <div class="carousel-container">
-                <h2 class="animated fadeInDown">{{poll.title}}</h2> 
+                <h2 class="animated fadeInDown">{{poll.title}}</h2>
                 <p>ID: <span id="pollId">{{poll.id}}</span></p>
                 <form>
                     <div id='options'>
@@ -16,7 +16,7 @@
                 <p>Total votes: <span id="totalVotes">{{poll.totalVotes}}</span></p>
                 <p id="message"></p>
                 <button class="submit-button animated fadeInUp" id='copyUrl'>Copy link</button>
-                <input class = "create-input option animated fadeInUp" type="text" id="urlText" readonly>
+                <input class="create-input option animated fadeInUp" type="text" id="urlText" readonly>
                 <input type="text" id='optionsData' value='{{json poll.options}}' hidden readonly>
             </div>
 
@@ -29,7 +29,7 @@
         const options = JSON.parse(document.getElementById('optionsData').value)
         const pollId = document.getElementById('pollId').textContent
         let html = ''
-        for(let i = 0; i < options.length; i++){
+        for (let i = 0; i < options.length; i++) {
             let option = options[i].option.replace(/["]+/g, '&quot;')
             let votes = options[i].votes
             html += '<div>'
@@ -54,7 +54,7 @@
             <h2>Chart</h2>
             <p>How do the results look like?</p>
         </div>
-        <canvas id="pollChart" width="400" height="400"></canvas>
+        <canvas id="pollChart"></canvas>
     </div>
 </section>
 <!-- End Graph Section -->
