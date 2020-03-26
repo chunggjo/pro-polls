@@ -40,7 +40,7 @@ createForm.addEventListener('submit', e => {
 			})
 		} else if (response.status === 400) {
 			message.textContent =
-				'Could not create poll. Please check all fields are filled and options are unique.'
+				'Could not create poll. Please check that all options are unique.'
 		}
 	})
 })
@@ -75,7 +75,7 @@ addOptionButton.addEventListener('click', () => {
 	html +=
 		'<input id="option-' +
 		optionCount +
-		'" type="text" class="option create-input" name="option">'
+		'" type="text" class="option create-input" name="option" required>'
 	html += '</div>'
 
 	$('#options').append(html)
