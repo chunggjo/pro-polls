@@ -1,31 +1,64 @@
-
 <section id="hero" class="d-flex justify-cntent-center align-items-center">
-    
+
     <div id="heroCarousel" class="container carousel carousel-fade" data-ride="carousel">
 
         <div class="carousel-item active">
 
             <div class="carousel-container">
-
-                <h2 class="animated fadeInDown">{{poll.title}}</h2> 
+                <h2 class="animated fadeInDown">{{poll.title}}</h2>
+                <p>ID: <span id="pollId">{{poll.id}}</span></p>
                 <form>
                     <div id='options'>
 
                     </div>
                     <div> <button class="submit-button animated fadeInUp" id="voteButton">Vote</button> </div>
                 </form>
+                <p>Total votes: <span id="totalVotes">{{poll.totalVotes}}</span></p>
                 <p id="message"></p>
                 <button class="submit-button animated fadeInUp" id='copyUrl'>Copy link</button>
-                <input class = "create-input option animated fadeInUp" type="text" id="urlText" readonly>
-
+                <input class="create-input option animated fadeInUp" type="text" id="urlText" readonly>
+                <input type="text" id='optionsData' value='{{json poll.options}}' hidden readonly>
             </div>
 
         </div>
 
     </div>
+</section>
 <script>
-    const options = JSON.parse('{{{json poll.options}}}')
-    const pollId = '{{json poll.id}}'
+    const poll = (function () {
+        const options = JSON.parse(document.getElementById('optionsData').value)
+        const pollId = document.getElementById('pollId').textContent
+        let html = ''
+        for (let i = 0; i < options.length; i++) {
+            let option = options[i].option.replace(/["]+/g, '&quot;')
+            let votes = options[i].votes
+            html += '<div>'
+            html += '<input id="' + option + '" type="radio" name="option" value="' + option + '">'
+            html += '<label for="' + option + '">' + option + ' - <span id="' + option + '-votes">' + votes + '</span> votes</label>'
+            html += '</div>'
+        }
+        return {
+            options,
+            id: pollId,
+            html
+        }
+    })()
+    document.querySelector('#options').innerHTML = poll.html
+    document.querySelector("input").checked = true
 </script>
+<!-- ======= Graph Section ======= -->
+<section class="features">
+    <div class="container">
+
+        <div class="section-title" data-aos="fade-up">
+            <h2>Chart</h2>
+            <p>How do the results look like?</p>
+        </div>
+        <canvas id="pollChart"></canvas>
+    </div>
+</section>
+<!-- End Graph Section -->
+<script src='/js/chart.min.js'></script>
+<script src='/js/jquery-3.4.1.min.js'></script>
 <script src='/js/vote.js'></script>
 <script src='/js/copyUrl.js'></script>

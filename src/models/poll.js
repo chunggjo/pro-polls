@@ -8,33 +8,55 @@ const PollSchema = new Schema({
         required:true,
         trim:true
     },
-    options:[{
-        option:{
-            type:String,
-            required:true,
-            trim:true
-        },
-        votes:{
-            type:Number,
-            required:true
+    options:{
+        type:[{
+            option:{
+                type:String,
+                required:true,
+                trim:true
+            },
+            votes:{
+                type:Number,
+                required:true,
+                default:0
+            }
+        }],
+        validate(value){
+            if(value.length>8){
+                throw new Error('options exceeds the limit of 8')
+            }
+            options = value.map(obj=>obj.option)
+            if((new Set(options)).size !== options.length){
+                throw new Error('options must be unique')
+            }
         }
-    }],
-    voters:[{
-        ip_buffer:{
-            type:Buffer,
-            required: true,
-        }
-    }]
+    },
+    totalVotes:{
+        type:Number,
+        required:true,
+        default:0
+    }
 })
 
-PollSchema.methods.toJSON = function(){
+PollSchema.pre('save', async function(next){
     const poll = this
-    const pollObject = poll.toObject()
 
-    delete pollObject.voters
+    if(poll.isNew){
+        poll.totalVotes = 0
+        // Ensure votes are zero when poll is new
+        options = poll.options
+        for(let i = 0; i < options.length; i++){
+            options[i].votes = 0
+        }
+        return next()
+    }
+    
+    if(poll.isModified('options')){
+        poll.totalVotes++
+    }
 
-    return pollObject
-}
+    next()
+})
 
 PollSchema.plugin(AutoIncrement,{inc_field:'id'})
 const Poll = mongoose.model('Poll',PollSchema)
