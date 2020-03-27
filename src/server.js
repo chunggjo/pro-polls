@@ -37,6 +37,9 @@ const hbs = expbs.create({
 	helpers: {
 		json: function(value) {
 			return JSON.stringify(value)
+		},
+		formatDate: function(value){
+			return new Date(value).toUTCString()
 		}
 	}
 })

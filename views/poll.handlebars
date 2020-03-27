@@ -13,7 +13,7 @@
                     </div>
                     <div> <button class="submit-button animated fadeInUp" id="voteButton">Vote</button> </div>
                 </form>
-                <p>Date created: <span id="dateCreated">{{poll.dateCreated}}</span></p>
+                <p>Created: <span id="dateCreated">{{formatDate poll.dateCreated}}</span></p>
 
                 <p>Total votes: <span id="totalVotes">{{poll.totalVotes}}</span></p>
                 <p id="message"></p>
@@ -27,8 +27,6 @@
     </div>
 </section>
 <script>
-    const date = document.getElementById('dateCreated').textContent // Gets date from document
-    const convertedDate = new Date(date) // Creates a date object
     const poll = (function () {
         const options = JSON.parse(document.getElementById('optionsData').value)
         const pollId = document.getElementById('pollId').textContent
@@ -49,7 +47,6 @@
     })()
     document.querySelector('#options').innerHTML = poll.html
     document.querySelector("input").checked = true
-    document.getElementById('dateCreated').textContent = convertedDate.toUTCString() // Coverts date object to readable string
 </script>
 <!-- ======= Graph Section ======= -->
 <section class="features">
