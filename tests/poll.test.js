@@ -9,14 +9,13 @@ const pollOne = {
     options: 
     [{option: 'Raw', votes: 0},
      {option: 'Smackdown', votes: 0}],
-     totalVotes: 0,
-     id: 1
+     totalVotes: 0
 }
 
-beforeEach(async () => {
-   await Poll.deleteMany()
-   await new Poll(pollOne).save()
-})
+// beforeEach(async () => {
+//    await Poll.deleteMany()
+//    await new Poll(pollOne).save()
+// })
 
 /*afterEach(() => {
     console.log('afterEach')
@@ -37,8 +36,7 @@ test('Should create a new poll', async () => {
                 votes: 0
             }
         ],
-        totalVotes: 0,
-        id: 1
+        totalVotes: 0
         
     }).expect(201)
 
@@ -52,7 +50,8 @@ test('Should create existing poll', async () => {
     const response =  await request(app).post('/create').send({
          title: pollOne.title,
          options: pollOne.options,
-         totalVotes: pollOne.totalVotes    
+         totalVotes: pollOne.totalVotes
+  
      }).expect(201)
  
      // assert that database was changed correctly
@@ -69,7 +68,7 @@ test('Should fetch all polls', async () => {
 
 //Struggling with this
 test('Find a poll', async (req, res) => {
-    const pollID = pollOne.id
+    const pollID = await Poll.findById('5e7e31dc308a132bf8baf155')
     const response = await request(app)
     .get(`/polls/${pollID}`).expect(200)
   })
