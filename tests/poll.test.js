@@ -13,10 +13,10 @@ const pollOne = {
      id: 0
 }
 
-// beforeEach(async () => {
-//    await Poll.deleteMany()
-//    await new Poll(pollOne).save()
-// })
+beforeEach(async () => {
+   await Poll.deleteMany()
+   await new Poll(pollOne).save()
+})
 
 /*afterEach(() => {
     console.log('afterEach')
