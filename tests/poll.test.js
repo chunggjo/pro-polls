@@ -9,7 +9,8 @@ const pollOne = {
     options: 
     [{option: 'Raw', votes: 0},
      {option: 'Smackdown', votes: 0}],
-     totalVotes: 0
+     totalVotes: 0,
+     id: 1
 }
 
 beforeEach(async () => {
@@ -36,7 +37,8 @@ test('Should create a new poll', async () => {
                 votes: 0
             }
         ],
-        totalVotes: 0
+        totalVotes: 0,
+        id: 1
         
     }).expect(201)
 
@@ -67,9 +69,9 @@ test('Should fetch all polls', async () => {
 
 //Struggling with this
 test('Find a poll', async (req, res) => {
-    // const poll = db.getCollection('polls').find({id})
+    const pollID = pollOne.id
     const response = await request(app)
-    .get(`/polls/${poll}`).expect(200)
+    .get(`/polls/${pollID}`).expect(200)
   })
 
 
