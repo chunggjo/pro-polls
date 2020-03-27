@@ -1,6 +1,8 @@
 const request = require('supertest')
 const app = require('../src/app')
 const Poll = require('../src/models/poll')
+const server = require('../src/server')
+const db = require('mongodb')
 
 const pollOne = {
     title: 'Smackdown Vs Raw',
@@ -64,17 +66,17 @@ test('Should fetch all polls', async () => {
 })
 
 //Struggling with this
-test('Find a poll', async () => {
-    const poll_id = pollOne.poll_id;
+test('Find a poll', async (req, res) => {
+    // const poll = db.getCollection('polls').find({id})
     const response = await request(app)
-    .get(`/polls/${poll_id}`).expect(200)
+    .get(`/polls/${poll}`).expect(200)
   })
 
 
 
 test('Should update a poll', async () => {
     const res = await request(app)
-        .patch('polls/5e79190a9a8bdf5bf04e4da9')
+        .patch('polls/:5e79190a9a8bdf5bf04e4da9')
         .send({
         options: [
             {option: 'Raw', votes: 1}
