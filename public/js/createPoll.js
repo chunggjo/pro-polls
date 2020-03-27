@@ -25,7 +25,8 @@ createForm.addEventListener('submit', e => {
 		title: title,
 		options: optionObjects,
 		voters: [],
-		totalVotes: 0
+		totalVotes: 0,
+		dateCreated: new Date()
 	}
 
 	// Post form data
