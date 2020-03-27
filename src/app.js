@@ -7,6 +7,9 @@ MongoStore = require('connect-mongo')(session),
 mongoose = require('mongoose')
 require('./db/mongoose')
 const Poll = require('./models/poll')
+const request = require('request')
+const bodyParser = require('body-parser')
+const secretKey = '6LfL_eMUAAAAAI3UDZK3I4-g0Gptxvws0T-UfilU'
 const socketio = require('socket.io'),
 {addUser,removeUser,getUser} = require('./utils/users')
 
@@ -31,7 +34,8 @@ if (app.get('env') === 'production') {
     sess.cookie.maxAge = 1000 * 60 * 60 * 14; //14 days
 }
 app.use(session(sess));
-
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 const hbs = expbs.create({
     defaultLayout:'main',
     helpers:{
@@ -71,12 +75,28 @@ app.get('/create',(req,res)=>{
 app.post('/create',async(req,res)=>{
     const poll = new Poll(req.body)
 
-    try{
-        await poll.save()
-        res.status(201).send(poll)
-    }catch(e){
-        res.status(400).send(e)
+    if(!req.body.captcha){
+        return res.json({"success":false, "msg": "Captcha is not checked"}) 
     }
+
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}`;
+
+    request(verifyUrl, (err, response, body) => {
+        body = JSON.parse(body)
+
+        if(!body.success && body.success === undefined) {
+            return res.json({"success": false, "msg":"captcha verification failed"})
+        }
+        else if(body.score < 0.5) {
+            return res.json({"success": false, "msg":"You may be a bot"})
+        }
+        try{
+            await poll.save()
+            res.status(201).send(poll)
+        }catch(e){
+            res.status(400).send(e)
+        }
+    })
 })
 
 app.get('/polls/:id',async(req,res)=>{
