@@ -13,6 +13,8 @@
                     </div>
                     <div> <button class="submit-button animated fadeInUp" id="voteButton">Vote</button> </div>
                 </form>
+                <p>Created: <span id="dateCreated">{{formatDate poll.dateCreated}}</span></p>
+
                 <p>Total votes: <span id="totalVotes">{{poll.totalVotes}}</span></p>
                 <p id="message"></p>
                 <button class="submit-button animated fadeInUp" id='copyUrl'>Copy link</button>
