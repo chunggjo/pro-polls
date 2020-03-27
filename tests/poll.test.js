@@ -1,8 +1,6 @@
 const request = require('supertest')
 const app = require('../src/app')
 const Poll = require('../src/models/poll')
-const server = require('../src/server')
-const db = require('mongodb')
 
 const pollOne = {
     title: 'Smackdown Vs Raw',
@@ -71,9 +69,9 @@ test('Should fetch all polls', async () => {
 
 //Struggling with this
 test('Find a poll', async (req, res) => {
-    const pollID = await Poll.findOne({id: req.params.id})
+    //const pollID = await Poll.findOne({id: req.params.pollID})
     const response = await request(app)
-    .get(`/polls/${pollID}`).expect(200)
+    .get(`/polls/751`).expect(200)
   })
 
 
