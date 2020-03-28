@@ -51,11 +51,8 @@ for (let i = 0; i < voteOptions.length; i++) {
 }
 
 // START GRAPH SECTION
-const ctx = document.getElementById('pollChart').getContext('2d')
-const pollChart = new Chart(ctx, {
-	type: 'bar',
-	data: {
-		labels: chartLabels,
+var chartData = {
+	labels: chartLabels,
 		datasets: [
 			{
 				label: '# of Votes',
@@ -83,7 +80,13 @@ const pollChart = new Chart(ctx, {
 				borderWidth: 1
 			}
 		]
-	},
+	}
+
+var ctx = document.getElementById('pollChart')
+
+var pollChart = new Chart(ctx, {
+	type: 'bar',
+	data: chartData,
 	options: {
 		scales: {
 			yAxes: [
@@ -97,6 +100,23 @@ const pollChart = new Chart(ctx, {
 	}
 })
 // END GRAPH SECTION
+
+// Changes Chart to specify input
+document.getElementById("barButton").onclick = function () {
+	pollChart.destroy();
+	pollChart = new Chart(ctx, {
+		type: 'bar',
+		data: chartData
+	})
+}
+
+document.getElementById("pieButton").onclick = function () {
+	pollChart.destroy()
+	pollChart = new Chart(ctx, {
+		type: 'pie',
+		data: chartData
+	})
+}
 
 socketio.on('vote', data => {
 	let options = data.options

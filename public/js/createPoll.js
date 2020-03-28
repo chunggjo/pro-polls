@@ -13,6 +13,7 @@ createForm.addEventListener('submit', e => {
 	const title = document.getElementById('pollTitle').value
 	const optionInputs = document.getElementsByName('option')
 
+
 	// Create form data
 	for (let i = 0; i < optionInputs.length; i++) {
 		const obj = {
