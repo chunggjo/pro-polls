@@ -45,6 +45,13 @@ createForm.addEventListener('submit', e => {
 				'Could not create poll. Please check that all options are unique.'
 		}
 	})
+
+	//alert("Button clicked");
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LfL_eMUAAAAAD8KT1-IbleO62YzIfO8T9ns676P', {action: 'homepage'}).then(function(token) {
+                    alert("Tokem went away")
+                 });
+            }); 
 })
 
 removeOptionButton.addEventListener('click', () => {
