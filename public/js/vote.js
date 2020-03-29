@@ -104,20 +104,24 @@ var pollChart = new Chart(ctx, {
 
 // Changes Chart to specify input
 document.getElementById('barButton').onclick = function() {
-	pollChart.destroy()
-	pollChart = new Chart(ctx, {
-		type: 'bar',
-		data: chartData,
-		options: chartOptions
-	})
+	if (pollChart.config.type !== 'bar') {
+		pollChart.destroy()
+		pollChart = new Chart(ctx, {
+			type: 'bar',
+			data: chartData,
+			options: chartOptions
+		})
+	}
 }
 
 document.getElementById('pieButton').onclick = function() {
-	pollChart.destroy()
-	pollChart = new Chart(ctx, {
-		type: 'pie',
-		data: chartData
-	})
+	if (pollChart.config.type !== 'pie') {
+		pollChart.destroy()
+		pollChart = new Chart(ctx, {
+			type: 'pie',
+			data: chartData
+		})
+	}
 }
 // END GRAPH SECTION
 
