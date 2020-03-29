@@ -1,6 +1,5 @@
 .DS_Store
 config
-tests
 # Logs
 logs
 *.log
