@@ -141,6 +141,13 @@ app.patch('/polls/:id', async (req, res) => {
 	}
 })
 
+app.get('/about', (req, res) => {
+	res.render('about', {
+		pageTitle: 'Pro Polls - About',
+		headerText: 'About Us'
+	})
+})
+
 app.get('*', (req, res) => {
 	res.render('404', {
 		pageTitle: 'Pro Polls - Page not found',

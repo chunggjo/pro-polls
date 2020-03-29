@@ -2329,3 +2329,6 @@ h5 {
 	color: #444;
 }
 
+.viewedPoll {
+	list-style-type: none;
+}
