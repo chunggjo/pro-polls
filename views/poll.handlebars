@@ -53,7 +53,7 @@
             let option = options[i].option.replace(/["]+/g, '&quot;')
             let votes = options[i].votes
             html += '<input id="' + option + '" type="radio" name="option" value="' + option + '">'
-            html += '<label for="' + option + '">' + option + ' - ' + votes + ' votes</label><br>'
+            html += '<label for="' + option + '">' + option + ' - <span id="' + option + '-votes">' + votes + '</span> votes</label><br>'
         }
         return {
             options,
