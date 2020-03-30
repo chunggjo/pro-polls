@@ -9,16 +9,16 @@
                 <time timedate="{{formatDate poll.dateCreated}}">Created: {{formatDate poll.dateCreated}}</time>
                 <p>ID: <span id="pollId">{{poll.id}}</span></p>
                 <form>
-                    <div id='options'>
+                    <fieldset id='options'>
 
-                    </div>
-                    <div> <button class="submit-button animated fadeInUp" id="voteButton">Vote</button> </div>
+                    </fieldset>
+                    <button class="submit-button animated fadeInUp" id="voteButton">Vote</button>
                 </form>
                 <p>Total votes: <span id="totalVotes">{{poll.totalVotes}}</span></p>
                 <p id="message"></p>
                 <button class="submit-button animated fadeInUp" id='copyUrl'>Copy link</button>
                 <input class="option animated fadeInUp" type="text" id="urlText" readonly>
-                <input type="text" id='optionsData' value='{{json poll.options}}' hidden readonly>
+                <input type="text" id='pollOptionsData' value='{{json poll.options}}' hidden readonly>
             </div>
 
         </div>
@@ -46,16 +46,14 @@
 <!-- End Graph Section -->
 <script>
     const poll = (function () {
-        const options = JSON.parse(document.getElementById('optionsData').value)
+        const options = JSON.parse(document.getElementById('pollOptionsData').value)
         const pollId = document.getElementById('pollId').textContent
         let html = ''
         for (let i = 0; i < options.length; i++) {
             let option = options[i].option.replace(/["]+/g, '&quot;')
             let votes = options[i].votes
-            html += '<div>'
             html += '<input id="' + option + '" type="radio" name="option" value="' + option + '">'
-            html += '<label for="' + option + '">' + option + ' - <span id="' + option + '-votes">' + votes + '</span> votes</label>'
-            html += '</div>'
+            html += '<label for="' + option + '">' + option + ' - ' + votes + ' votes</label><br>'
         }
         return {
             options,
