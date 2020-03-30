@@ -83,15 +83,9 @@ document.getElementById('pieButton').onclick = function() {
 
 socketio.on('vote', data => {
 	let options = data.options
-	captionText = ''
 	for (let i = 0; i < options.length; i++) {
 		pollChart.data.datasets[0].data[i] = options[i].votes
 
-		captionText += options[i].option + ' - ' + options[i].votes
-		if(i !== options.length){
-			captionText += ', '
-		}
 	}
-	caption.textContent = captionText
     pollChart.update()
 })
