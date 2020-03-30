@@ -2245,7 +2245,8 @@ section {
 }
 
 .create-input {
-	background: #fff;
+	background-color: rgba(0, 0, 0, 0.1);
+	color: #fff;
 	padding: 6px 10px;
 	position: relative;
 	border-radius: 50px;
@@ -2331,4 +2332,14 @@ h5 {
 
 .viewedPoll {
 	list-style-type: none;
+}
+
+time {
+	color: #fff;
+}
+
+#urlText {
+	color: #fff;
+	background: transparent;
+	border: 0;
 }

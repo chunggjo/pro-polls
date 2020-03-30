@@ -39,7 +39,7 @@ const hbs = expbs.create({
 			return JSON.stringify(value)
 		},
 		formatDate: function(value){
-			return new Date(value).toUTCString()
+			return new Date(value).toLocaleString().replace(/:\d{2}\s/,' ');
 		}
 	}
 })
