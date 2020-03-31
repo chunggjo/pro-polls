@@ -6,48 +6,25 @@
 
             <div class="carousel-container">
                 <h2 class="animated fadeInDown">{{poll.title}}</h2>
+                <time timedate="{{formatDate poll.dateCreated}}">Created: {{formatDate poll.dateCreated}}</time>
                 <p>ID: <span id="pollId">{{poll.id}}</span></p>
                 <form>
-                    <div id='options'>
+                    <fieldset id='options'>
 
-                    </div>
-                    <div> <button class="submit-button animated fadeInUp" id="voteButton">Vote</button> </div>
+                    </fieldset>
+                    <button class="submit-button animated fadeInUp" id="voteButton">Vote</button>
                 </form>
-                <p>Created: <span id="dateCreated">{{formatDate poll.dateCreated}}</span></p>
-
                 <p>Total votes: <span id="totalVotes">{{poll.totalVotes}}</span></p>
                 <p id="message"></p>
                 <button class="submit-button animated fadeInUp" id='copyUrl'>Copy link</button>
-                <input class="create-input option animated fadeInUp" type="text" id="urlText" readonly>
-                <input type="text" id='optionsData' value='{{json poll.options}}' hidden readonly>
+                <input class="option animated fadeInUp" type="text" id="urlText" readonly>
+                <input type="text" id='pollOptionsData' value='{{json poll.options}}' hidden readonly>
             </div>
 
         </div>
 
     </div>
 </section>
-<script>
-    const poll = (function () {
-        const options = JSON.parse(document.getElementById('optionsData').value)
-        const pollId = document.getElementById('pollId').textContent
-        let html = ''
-        for (let i = 0; i < options.length; i++) {
-            let option = options[i].option.replace(/["]+/g, '&quot;')
-            let votes = options[i].votes
-            html += '<div>'
-            html += '<input id="' + option + '" type="radio" name="option" value="' + option + '">'
-            html += '<label for="' + option + '">' + option + ' - <span id="' + option + '-votes">' + votes + '</span> votes</label>'
-            html += '</div>'
-        }
-        return {
-            options,
-            id: pollId,
-            html
-        }
-    })()
-    document.querySelector('#options').innerHTML = poll.html
-    document.querySelector("input").checked = true
-</script>
 <!-- ======= Graph Section ======= -->
 <section class="features">
     <div class="container">
@@ -60,11 +37,36 @@
                 <input type="button" name="chart" id="pieButton" value="Pie Graph">
             </form>
         </div>
-        <canvas id="pollChart"></canvas>
+        <figure>
+            <canvas id="pollChart"></canvas>
+            <figcaption></figcaption>
+        </figure>
     </div>
 </section>
 <!-- End Graph Section -->
-<script src='/js/chart.min.js'></script>
-<script src='/js/jquery-3.4.1.min.js'></script>
-<script src='/js/vote.js'></script>
-<script src='/js/copyUrl.js'></script>
+<script>
+    const poll = (function () {
+        const options = JSON.parse(document.getElementById('pollOptionsData').value)
+        const pollId = document.getElementById('pollId').textContent
+        let html = ''
+        for (let i = 0; i < options.length; i++) {
+            let option = options[i].option.replace(/["]+/g, '&quot;')
+            let votes = options[i].votes
+            html += '<input id="' + option + '" type="radio" name="option" value="' + option + '">'
+            html += '<label for="' + option + '">' + option + ' - <span id="' + option + '-votes">' + votes + '</span> votes</label><br>'
+        }
+        return {
+            options,
+            id: pollId,
+            html
+        }
+    })()
+    document.querySelector('#options').innerHTML = poll.html
+    document.querySelector("input").checked = true
+</script>
+<script src='/js/resources/jquery-3.4.1.min.js'></script>
+<script src='/js/resources/chart.min.js'></script>
+<script src='/js/voting/sendVote.js'></script>
+<script src='/js/voting/createChart.js'></script>
+<script src='/js/voting/chartCaption.js'></script>
+<script src='/js/utils/copyUrl.js'></script>
