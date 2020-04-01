@@ -24,10 +24,7 @@ createForm.addEventListener('submit', e => {
 	}
 	formData = {
 		title: title,
-		options: optionObjects,
-		voters: [],
-		totalVotes: 0,
-		dateCreated: new Date()
+		options: optionObjects,	
 	}
 
 	// Post form data
@@ -36,14 +33,15 @@ createForm.addEventListener('submit', e => {
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(formData)
 	}).then(response => {
-		if (response.status === 201) {
-			response.json().then(poll => {
+		response.json().then(poll => {
+			if (response.status === 201) {
 				window.location.href = '../polls/' + poll.id
-			})
-		} else if (response.status === 400) {
-			message.textContent =
-				'Could not create poll. Please check that all options are unique.'
-		}
+			} else if (response.status === 400) {
+				// TODO: Return specific error message
+				message.textContent = 'Could not create poll. Please check that all options are unique and there are no inappropriate words.'
+			}
+		})
+
 	})
 })
 
