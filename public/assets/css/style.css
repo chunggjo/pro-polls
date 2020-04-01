@@ -368,7 +368,7 @@ h6,
 	transform: translateX(-50%) translateY(18px) rotate(2deg);
 }
 
-#hero .carousel-container {
+/* #hero .carousel-container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -430,7 +430,7 @@ h6,
 	background: #68a4c4;
 	color: #fff;
 	text-decoration: none;
-}
+} */
 
 @media (min-width: 1024px) {
 	#hero p {
@@ -2243,8 +2243,7 @@ section {
 }
 
 .create-input {
-	background-color: rgba(0, 0, 0, 0.1);
-	color: #fff;
+	background: #fff;
 	padding: 6px 10px;
 	position: relative;
 	border-radius: 50px;
@@ -2320,7 +2319,6 @@ h5 {
 	display: inline-block;
 }
 
-<<<<<<< HEAD
 .index ul {
 	list-style: none;
 	padding: 0;
@@ -2332,26 +2330,34 @@ h5 {
 .optionContainer {
 	margin-top: 1% ;
 }
-=======
-#pieID {
-	color: #444;
+
+.create-style-background{
+	background: linear-gradient(
+			to right,
+			rgba(30, 67, 86, 0.8),
+			rgba(30, 67, 86, 0.6)
+		),
+		url('../img/hero-bg.jpg') center top no-repeat;
 }
 
-#barID {
-	color: #444;
+.create-style{
+	width: 100% ;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	text-align: center;
 }
 
-.viewedPoll {
-	list-style-type: none;
+.create-style button {
+	justify-content: center;
+	align-items: center;
 }
 
-time {
+.create-style h2 {
 	color: #fff;
+	margin-bottom: 30px;
+	font-size: 48px;
+	font-weight: 700;
 }
-
-#urlText {
-	color: #fff;
-	background: transparent;
-	border: 0;
-}
->>>>>>> 26b6541378982a2fcb02f62b8eb1a04fa7320166
