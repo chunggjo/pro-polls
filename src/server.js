@@ -1,21 +1,21 @@
 const path = require('path'),
-	http = require('http')
+http = require('http')
 const express = require('express'),
-	expbs = require('express-handlebars')
+expbs = require('express-handlebars')
 const session = require('express-session'),
-	MongoStore = require('connect-mongo')(session),
-	mongoose = require('mongoose')
+MongoStore = require('connect-mongo')(session),
+mongoose = require('mongoose')
 require('./db/mongoose')
 const Poll = require('./models/poll')
 const socketio = require('socket.io'),
-	{ addUser, removeUser, getUser } = require('./utils/users')
+{ addUser, removeUser, getUser } = require('./utils/users')
 
 const app = express()
 const server = http.createServer(app),
-	io = socketio(server)
+io = socketio(server)
 
 const port = process.env.PORT,
-	publicDirectoryPath = path.join(__dirname, '../public')
+publicDirectoryPath = path.join(__dirname, '../public')
 
 // session
 const sess = {
@@ -33,12 +33,15 @@ if (app.get('env') === 'production') {
 app.use(session(sess))
 
 const hbs = expbs.create({
-    defaultLayout:'main',
-    helpers:{
-        json:function(value){
-            return JSON.stringify(value)
-        }
-    }
+	defaultLayout: 'main',
+	helpers: {
+		json: function(value) {
+			return JSON.stringify(value)
+		},
+		formatDate: function(value){
+			return new Date(value).toLocaleString().replace(/:\d{2}\s/,' ');
+		}
+	}
 })
 
 app.engine('handlebars', hbs.engine)

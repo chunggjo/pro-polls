@@ -2243,7 +2243,8 @@ section {
 }
 
 .create-input {
-	background: #fff;
+	background-color: rgba(0, 0, 0, 0.1);
+	color: #fff;
 	padding: 6px 10px;
 	position: relative;
 	border-radius: 50px;
@@ -2319,6 +2320,7 @@ h5 {
 	display: inline-block;
 }
 
+<<<<<<< HEAD
 .index ul {
 	list-style: none;
 	padding: 0;
@@ -2330,3 +2332,26 @@ h5 {
 .optionContainer {
 	margin-top: 1% ;
 }
+=======
+#pieID {
+	color: #444;
+}
+
+#barID {
+	color: #444;
+}
+
+.viewedPoll {
+	list-style-type: none;
+}
+
+time {
+	color: #fff;
+}
+
+#urlText {
+	color: #fff;
+	background: transparent;
+	border: 0;
+}
+>>>>>>> 26b6541378982a2fcb02f62b8eb1a04fa7320166

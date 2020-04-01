@@ -13,6 +13,7 @@ createForm.addEventListener('submit', e => {
 	const title = document.getElementById('pollTitle').value
 	const optionInputs = document.getElementsByName('option')
 
+
 	// Create form data
 	for (let i = 0; i < optionInputs.length; i++) {
 		const obj = {
@@ -23,9 +24,7 @@ createForm.addEventListener('submit', e => {
 	}
 	formData = {
 		title: title,
-		options: optionObjects,
-		voters: [],
-		totalVotes: 0
+		options: optionObjects
 	}
 
 	// Post form data
@@ -34,22 +33,16 @@ createForm.addEventListener('submit', e => {
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(formData)
 	}).then(response => {
-		if (response.status === 201) {
-			response.json().then(poll => {
+		response.json().then(poll => {
+			if (response.status === 201) {
 				window.location.href = '../polls/' + poll.id
-			})
-		} else if (response.status === 400) {
-			message.textContent =
-				'Could not create poll. Please check that all options are unique.'
-		}
-	})
+			} else if (response.status === 400) {
+				// TODO: Return specific error message
+				message.textContent = 'Could not create poll. Please check that all options are unique and there are no inappropriate words.'
+			}
+		})
 
-	//alert("Button clicked");
-            grecaptcha.ready(function() {
-                grecaptcha.execute('6LfL_eMUAAAAAD8KT1-IbleO62YzIfO8T9ns676P', {action: 'homepage'}).then(function(token) {
-                    alert("Tokem went away")
-                 });
-            }); 
+	})
 })
 
 removeOptionButton.addEventListener('click', () => {
