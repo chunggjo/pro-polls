@@ -24,7 +24,7 @@ createForm.addEventListener('submit', e => {
 	}
 	formData = {
 		title: title,
-		options: optionObjects,	
+		options: optionObjects
 	}
 
 	// Post form data
