@@ -24,7 +24,22 @@
             </div>
         </div>
     </div>
+
 </section><!-- End Hero -->
+
+<section>
+    <div class="container">
+        <aside>
+            <h2>Our most popular polls:</h2>
+            <ul>
+                {{#each popularPolls}}
+                <li class="popularPoll"><a href="/polls/{{polls.id}}">{{polls.title}}</a></li>
+                {{/each}}
+            </ul>
+        </aside>
+    </div>
+</section>
 
 
 <script src="/js/common/goToPoll.js"></script>
+<script src="/js/common/popularPolls.js"></script>
