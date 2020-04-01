@@ -1,12 +1,19 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const AutoIncrement = require('mongoose-sequence')(mongoose)
+const Filter = require('bad-words'),
+filter = new Filter()
 
 const PollSchema = new Schema({
 	title: {
 		type: String,
 		required: true,
-		trim: true
+		trim: true,
+		validate(value){
+			if(filter.isProfane(value)){
+				throw new Error('Please keep inappropriate words out of title.')
+			}
+		}
 	},
 	options: {
 		type: [
@@ -25,12 +32,20 @@ const PollSchema = new Schema({
 		],
 		validate(value) {
 			if (value.length > 8) {
-				throw new Error('options exceeds the limit of 8')
+				throw new Error('Options exceeds the limit of 8.')
 			}
+
 			options = value.map(obj => obj.option)
 			if (new Set(options).size !== options.length) {
-				throw new Error('options must be unique')
+				throw new Error('Options must be unique.')
 			}
+
+			for(let i=0; i<value.length; i++){
+				if(filter.isProfane(value[i].option)){
+					throw new Error('Please keep inappropriate words out of options.')
+				}
+			}
+	
 		}
 	},
 	totalVotes: {
@@ -40,7 +55,8 @@ const PollSchema = new Schema({
 	},
 	dateCreated: {
 		type: Date,
-		required: true
+		required: true,
+		default: new Date()
 	}
 })
 
@@ -54,6 +70,10 @@ PollSchema.pre('save', async function(next) {
 		for (let i = 0; i < options.length; i++) {
 			options[i].votes = 0
 		}
+
+		// Ensure date is the current date
+		poll.dateCreated = new Date()
+
 		return next()
 	}
 
