@@ -232,7 +232,7 @@ h6,
 	overflow-y: auto;
 	left: -260px;
 	width: 260px;
-	padding-top: 18px;
+	padding-top: 0px;
 	background: #1e4356;
 	transition: 0.4s;
 }
@@ -331,7 +331,7 @@ h6,
 --------------------------------------------------------------*/
 #hero {
 	width: 100%;
-	height: 90vh;
+	height: 110vh;
 	overflow: hidden;
 	position: relative;
 }
@@ -360,10 +360,10 @@ h6,
 	left: 50%;
 	top: 0;
 	width: 130%;
-	height: 96%;
+	height: 100%;
 	background: #68a4c4;
 	opacity: 0.3;
-	z-index: 0;
+	z-index: 0; 
 	border-radius: 0 0 50% 50%;
 	transform: translateX(-50%) translateY(18px) rotate(2deg);
 }
@@ -881,9 +881,7 @@ section {
 	padding: 0;
 }
 
-.about ul li {
-	padding-bottom: 10px;
-}
+.about ul li { padding-bottom: 10px; }
 
 .about ul i {
 	font-size: 20px;
@@ -891,9 +889,9 @@ section {
 	color: #68a4c4;
 }
 
-.about p:last-child {
-	margin-bottom: 0;
-}
+.about p:last-child { margin-bottom: 0; }
+
+.about { margin-top: 5%; }
 
 /*--------------------------------------------------------------
 # Facts
@@ -2319,4 +2317,16 @@ h5 {
 	text-align: center;
 	width: 33.33%;
 	display: inline-block;
+}
+
+.index ul {
+	list-style: none;
+	padding: 0;
+}
+.index aside > p { padding-top: 2% ; }
+
+.createPad { padding-top: 5% ; }
+
+.optionContainer {
+	margin-top: 1% ;
 }

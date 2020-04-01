@@ -72,7 +72,7 @@ addOptionButton.addEventListener('click', () => {
 	}
 
 	optionCount++
-	var html = '<div id="' + optionCount + '">'
+	var html = '<div id="' + optionCount + '" class=optionContainer>'
 	html +=
 		'<label for="option-' +
 		optionCount +

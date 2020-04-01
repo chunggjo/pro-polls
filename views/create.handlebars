@@ -2,12 +2,10 @@
     <script src="https://www.google.com/recaptcha/api.js?render=6LfL_eMUAAAAAD8KT1-IbleO62YzIfO8T9ns676P"></script>
 </head>
 
-<section id="hero" class="d-flex justify-cntent-center align-items-center">
+<section id="hero" class="d-flex justify-cntent-center align-items-center createPad">
     <div id="heroCarousel" class="container carousel carousel-fade" data-ride="carousel">
-
-        <!-- Slide 1 -->
         <div class="carousel-item active">
-            <div class="carousel-container">
+            <div id="myDiv"class="carousel-container">
                 <h2 class="animated fadeInDown">{{headerText}}</h2>
                 <form class="animated fadeInDown">
                     <div>
@@ -34,8 +32,15 @@
             </div>
         </div>
     </div>
-
-    <script src='/js/jquery-3.4.1.min.js'></script>
-    <script src='/js/createPoll.js'></script>
-    
 </section>
+
+<script src='/js/jquery-3.4.1.min.js'></script>
+<script src='/js/createPoll.js'></script>
+<script>
+    $(window).resize(function() {
+        var window_width = $(window).width(50);
+        if(window_width < 300) {
+            $("#myDiv").width(100);
+        }
+    });
+</script>
