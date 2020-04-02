@@ -54,6 +54,18 @@
 <section>
     <div class="container">
         <aside>
+            <h2>Most popular monthly polls:</h2>
+            <ul>
+                {{#each monthlyPolls}}
+                <li class="monthlyPoll"><a href="/polls/{{this.id}}">{{this.title}}</a></li>
+                {{/each}}
+            </ul>
+        </aside>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <aside>
             <h2>Most popular yearly polls:</h2>
             <ul>
                 {{#each yearlyPolls}}

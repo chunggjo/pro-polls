@@ -54,8 +54,9 @@ app.get('/', async (req, res) => {
 	let allPolls = await Poll.find()
 	let dailyPolls = []
 	let weeklyPolls = []
+	let monthlyPolls = []
 	let yearlyPolls = []
-	var currentDate = new Date()
+	let currentDate = new Date()
 	let currentDay = currentDate.getDay()
 	let monday = new Date(
 		currentDate.getFullYear(),
@@ -91,6 +92,17 @@ app.get('/', async (req, res) => {
 		}
 	})
 
+	// get most monthly yearly polls
+	allPolls.forEach(element => {
+		let pollDate = new Date(element.dateCreated)
+		if (
+			pollDate.getMonth() === currentDate.getMonth() &&
+			pollDate.getFullYear() === currentDate.getFullYear()
+		) {
+			monthlyPolls.push(element)
+		}
+	})
+
 	// get most popular yearly polls
 	allPolls.forEach(element => {
 		let pollDate = new Date(element.dateCreated)
@@ -102,6 +114,7 @@ app.get('/', async (req, res) => {
 	// gets top 5 most popular polls for each array
 	dailyPolls.splice(5)
 	weeklyPolls.splice(5)
+	monthlyPolls.splice(5)
 	yearlyPolls.splice(5)
 
 	res.render('index', {
@@ -111,6 +124,7 @@ app.get('/', async (req, res) => {
 		newUser,
 		dailyPolls,
 		weeklyPolls,
+		monthlyPolls,
 		yearlyPolls
 	})
 })
