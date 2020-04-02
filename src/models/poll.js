@@ -2,15 +2,15 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const AutoIncrement = require('mongoose-sequence')(mongoose)
 const Filter = require('bad-words'),
-filter = new Filter()
+	filter = new Filter()
 
 const PollSchema = new Schema({
 	title: {
 		type: String,
 		required: true,
 		trim: true,
-		validate(value){
-			if(filter.isProfane(value)){
+		validate(value) {
+			if (filter.isProfane(value)) {
 				throw new Error('Please keep inappropriate words out of title.')
 			}
 		}
@@ -40,12 +40,11 @@ const PollSchema = new Schema({
 				throw new Error('Options must be unique.')
 			}
 
-			for(let i=0; i<value.length; i++){
-				if(filter.isProfane(value[i].option)){
+			for (let i = 0; i < value.length; i++) {
+				if (filter.isProfane(value[i].option)) {
 					throw new Error('Please keep inappropriate words out of options.')
 				}
 			}
-	
 		}
 	},
 	totalVotes: {
