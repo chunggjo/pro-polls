@@ -50,82 +50,16 @@ app.set('view engine', 'handlebars')
 app.use(express.static(publicDirectoryPath))
 app.use(express.json())
 
-app.get('/', async (req, res) => {
-	let allPolls = await Poll.find()
-	let dailyPolls = []
-	let weeklyPolls = []
-	let monthlyPolls = []
-	let yearlyPolls = []
-	let currentDate = new Date()
-	let currentDay = currentDate.getDay()
-	let monday = new Date(
-		currentDate.getFullYear(),
-		currentDate.getMonth(),
-		currentDate.getDate() + (currentDay == 0 ? -6 : 1) - currentDay
-	)
-	let sunday = new Date(
-		currentDate.getFullYear(),
-		currentDate.getMonth(),
-		currentDate.getDate() + (currentDay == 0 ? 0 : 7) - currentDay
-	)
+app.get('/', (req, res) => {
 	let newUser = true
-
 	if (req.session.viewedPolls) {
 		newUser = false
 	}
-
-	allPolls.sort((a, b) => b.totalVotes - a.totalVotes) // sort all polls
-
-	// get most popular daily polls
-	allPolls.forEach(element => {
-		let pollDate = new Date(element.dateCreated)
-		if (pollDate.getDate() === currentDate.getDate()) {
-			dailyPolls.push(element)
-		}
-	})
-
-	// get most popular weekly polls
-	allPolls.forEach(element => {
-		let pollDate = new Date(element.dateCreated)
-		if (pollDate >= monday && pollDate <= sunday) {
-			weeklyPolls.push(element)
-		}
-	})
-
-	// get most monthly yearly polls
-	allPolls.forEach(element => {
-		let pollDate = new Date(element.dateCreated)
-		if (
-			pollDate.getMonth() === currentDate.getMonth() &&
-			pollDate.getFullYear() === currentDate.getFullYear()
-		) {
-			monthlyPolls.push(element)
-		}
-	})
-
-	// get most popular yearly polls
-	allPolls.forEach(element => {
-		let pollDate = new Date(element.dateCreated)
-		if (pollDate.getFullYear() === currentDate.getFullYear()) {
-			yearlyPolls.push(element)
-		}
-	})
-
-	// gets top 5 most popular polls for each array
-	dailyPolls.splice(5)
-	weeklyPolls.splice(5)
-	monthlyPolls.splice(5)
-	yearlyPolls.splice(5)
-
 	res.render('index', {
 		pageTitle: 'Pro Polls - Home',
 		headerText: 'Welcome to Pro Polls!',
 		viewedPolls: req.session.viewedPolls,
-		newUser,
-		dailyPolls,
-		weeklyPolls,
-		monthlyPolls,
-		yearlyPolls
+		newUser
 	})
 })
 

@@ -24,58 +24,7 @@
             </div>
         </div>
     </div>
-
 </section><!-- End Hero -->
-
-<section>
-    <div class="container">
-        <aside>
-            <h2>Most popular daily polls:</h2>
-            <ul>
-                {{#each dailyPolls}}
-                <li class="dailyPoll"><a href="/polls/{{this.id}}">{{this.title}}</a></li>
-                {{/each}}
-            </ul>
-        </aside>
-    </div>
-</section>
-<section>
-    <div class="container">
-        <aside>
-            <h2>Most popular weekly polls:</h2>
-            <ul>
-                {{#each weeklyPolls}}
-                <li class="weeklyPoll"><a href="/polls/{{this.id}}">{{this.title}}</a></li>
-                {{/each}}
-            </ul>
-        </aside>
-    </div>
-</section>
-<section>
-    <div class="container">
-        <aside>
-            <h2>Most popular monthly polls:</h2>
-            <ul>
-                {{#each monthlyPolls}}
-                <li class="monthlyPoll"><a href="/polls/{{this.id}}">{{this.title}}</a></li>
-                {{/each}}
-            </ul>
-        </aside>
-    </div>
-</section>
-<section>
-    <div class="container">
-        <aside>
-            <h2>Most popular yearly polls:</h2>
-            <ul>
-                {{#each yearlyPolls}}
-                <li class="yearlyPoll"><a href="/polls/{{this.id}}">{{this.title}}</a></li>
-                {{/each}}
-            </ul>
-        </aside>
-    </div>
-</section>
 
 
 <script src="/js/common/goToPoll.js"></script>
-<script src="/js/common/popularPolls.js"></script>
