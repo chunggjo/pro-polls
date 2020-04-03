@@ -1,10 +1,10 @@
-<section id="hero" class="d-flex justify-cntent-center align-items-center">
+<section id="" class="d-flex justify-cntent-center align-items-center main-section main-section-background">
 
-    <div id="heroCarousel" class="container carousel carousel-fade" data-ride="carousel">
+    <div id="" class="container main-section">
 
-        <div class="carousel-item active">
+        <div class="main-section">
 
-            <div class="carousel-container">
+            <div class="main-section">
                 <h2 class="animated fadeInDown">{{poll.title}}</h2>
                 <time timedate="{{formatDate poll.dateCreated}}">Created: {{formatDate poll.dateCreated}}</time>
                 <p>ID: <span id="pollId">{{poll.id}}</span></p>
@@ -25,6 +25,7 @@
 
     </div>
 </section>
+
 <!-- ======= Graph Section ======= -->
 <section class="features">
     <div class="container">
@@ -44,6 +45,7 @@
     </div>
 </section>
 <!-- End Graph Section -->
+
 <script>
     const poll = (function () {
         const options = JSON.parse(document.getElementById('pollOptionsData').value)
@@ -64,6 +66,7 @@
     document.querySelector('#options').innerHTML = poll.html
     document.querySelector("input").checked = true
 </script>
+
 <script src='/js/resources/jquery-3.4.1.min.js'></script>
 <script src='/js/resources/chart.min.js'></script>
 <script src='/js/voting/sendVote.js'></script>
