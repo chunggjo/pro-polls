@@ -3,7 +3,7 @@ const removeOptionButton = document.getElementById('removeOption')
 const createForm = document.querySelector('form')
 const message = document.getElementById('message')
 
-createForm.addEventListener('submit', e => {
+createForm.addEventListener('submit', (e) => {
 	e.preventDefault()
 
 	message.textContent = ''
@@ -13,35 +13,34 @@ createForm.addEventListener('submit', e => {
 	const title = document.getElementById('pollTitle').value
 	const optionInputs = document.getElementsByName('option')
 
-
 	// Create form data
 	for (let i = 0; i < optionInputs.length; i++) {
 		const obj = {
 			option: optionInputs[i].value,
-			votes: 0
+			votes: 0,
 		}
 		optionObjects.push(obj)
 	}
 	formData = {
 		title: title,
-		options: optionObjects
+		options: optionObjects,
 	}
 
 	// Post form data
 	fetch('/create', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(formData)
-	}).then(response => {
-		response.json().then(poll => {
+		body: JSON.stringify(formData),
+	}).then((response) => {
+		response.json().then((poll) => {
 			if (response.status === 201) {
 				window.location.href = '../polls/' + poll.id
 			} else if (response.status === 400) {
 				// TODO: Return specific error message
-				message.textContent = 'Could not create poll. Please check that all options are unique and there are no inappropriate words.'
+				message.textContent =
+					'Could not create poll. Please check that all options are unique and there are no inappropriate words.'
 			}
 		})
-
 	})
 })
 
@@ -65,7 +64,7 @@ addOptionButton.addEventListener('click', () => {
 	}
 
 	optionCount++
-	var html = '<div id="' + optionCount + '" class=optionContainer>'
+	var html = '<div id="' + optionCount + '">'
 	html +=
 		'<label for="option-' +
 		optionCount +
@@ -75,7 +74,7 @@ addOptionButton.addEventListener('click', () => {
 	html +=
 		'<input id="option-' +
 		optionCount +
-		'" type="text" class="option rounded-input" name="option" required>'
+		'" type="text" class="option rounded-input create-input" name="option" required>'
 	html += '</div>'
 
 	$('#options').append(html)
