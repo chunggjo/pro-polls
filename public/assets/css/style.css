@@ -548,7 +548,7 @@ section { padding: 60px 0 ; }
 	width: calc(100% - 100px);
 }
 
-.create-input {
+.rounded-input {
 	background: #fff;
 	padding: 6px 10px;
 	position: relative;
@@ -678,3 +678,5 @@ h5 {
 	margin: 0 auto 30px auto;
 	color: #fff;
 }
+
+.time-text { color: #FFFF ; }

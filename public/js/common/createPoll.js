@@ -75,7 +75,7 @@ addOptionButton.addEventListener('click', () => {
 	html +=
 		'<input id="option-' +
 		optionCount +
-		'" type="text" class="option create-input" name="option" required>'
+		'" type="text" class="option rounded-input" name="option" required>'
 	html += '</div>'
 
 	$('#options').append(html)
