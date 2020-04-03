@@ -574,9 +574,7 @@ section { padding: 60px 0 ; }
 	border-radius: 50px;
 }
 
-.input-button:hover {
-	background: #468db3;
-}
+.input-button:hover { background: #468db3 ; }
 
 label {
 	font-family: 'Roboto', sans-serif;
@@ -680,3 +678,20 @@ h5 {
 }
 
 .time-text { color: #FFFF ; }
+
+.graph-button {
+	top: 0;
+	right: 0;
+	bottom: 0;
+	border: 0;
+	background: none;
+	font-size: 16px;
+	padding: 0 20px;
+	margin: 3px;
+	background: #68a4c4;
+	color: #fff;
+	transition: 0.3s;
+	border-radius: 50px;
+}
+
+.graph-button:hover { background: #468db3 ; }
