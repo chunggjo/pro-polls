@@ -2,36 +2,32 @@
     <script src="https://www.google.com/recaptcha/api.js?render=6LfL_eMUAAAAAD8KT1-IbleO62YzIfO8T9ns676P"></script>
 </head>
 
-<section id="" class="d-flex justify-cntent-center align-items-center main-section main-section-background">
-    <div id="" class="container main-section">
-        <div class="main-section">
-            <div class="main-section">
-                <h2 class="animated fadeInDown">{{headerText}}</h2>
-                <form class="animated fadeInDown">
-                    <div>
-                        <label for="pollTitle">Title</label>
-                        <input class="rounded-input create-input" type="text" name="pollTitle" id="pollTitle" required>
-                    </div>
-                    <div id="options">
-                        <div id='1'>
-                            <label for="option-1">Option 1</label>
-                            <input id="option-1" type="text" class="option rounded-input create-input" name="option"
-                                required>
-                        </div>
-                        <div id='2'>
-                            <label for="option-2">Option 2</label>
-                            <input id="option-2" type="text" class="option rounded-input create-input" name="option"
-                                required>
-                        </div>
-                    </div>
-                    <button class="submit-button animated fadeInUp" id='create'>Create</button>
-                </form>
-                <p id="message"></p>
-                <div>
-                    <button class="submit-button animated fadeInUp" id="addOption">+</button>
-                    <button class="submit-button animated fadeInUp" id="removeOption">-</button>
+<section class="d-flex justify-cntent-center align-items-center main-section-background">
+    <div class="container main-section">
+        <h2 class="animated fadeInDown">{{headerText}}</h2>
+        <form class="animated fadeInDown">
+            <div>
+                <label for="pollTitle">Title</label>
+                <input class="rounded-input create-input" type="text" name="pollTitle" id="pollTitle" required>
+            </div>
+            <div id="options">
+                <div id='1'>
+                    <label for="option-1">Option 1</label>
+                    <input id="option-1" type="text" class="option rounded-input create-input" name="option"
+                        required>
+                </div>
+                <div id='2'>
+                    <label for="option-2">Option 2</label>
+                    <input id="option-2" type="text" class="option rounded-input create-input" name="option"
+                        required>
                 </div>
             </div>
+            <button class="submit-button animated fadeInUp" id='create'>Create</button>
+        </form>
+        <p id="message"></p>
+        <div>
+            <button class="submit-button animated fadeInUp" id="addOption">+</button>
+            <button class="submit-button animated fadeInUp" id="removeOption">-</button>
         </div>
     </div>
 </section>

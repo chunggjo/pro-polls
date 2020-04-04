@@ -566,18 +566,21 @@ section {
 }
 
 .create-input {
+	background-color: rgba(0, 0, 0, 0.1) !important;
+	color: white;
 	width: calc(100% - 100px);
 }
 
 /*--------------------------------------------------------------
 # Poll View Styles
 --------------------------------------------------------------*/
-.time-text {
-	color: #ffff;
+time {
+	color: #fff;
 }
 
-.copy-link {
-	width: 50%;
+#urlText {
+	background: transparent;
+	color: white;
 }
 
 /*--------------------------------------------------------------

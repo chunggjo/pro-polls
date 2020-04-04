@@ -1,28 +1,18 @@
-<section id="" class="d-flex justify-cntent-center align-items-center main-section main-section-background">
-
-    <div id="" class="container main-section">
-
-        <div class="main-section">
-
-            <div class="main-section">
-                <h2 class="animated fadeInDown">{{poll.title}}</h2>
-                <time class="time-text" timedate="{{formatDate poll.dateCreated}}">Created:
-                    {{formatDate poll.dateCreated}}</time>
-                <p>ID: <span id="pollId">{{poll.id}}</span></p>
-                <form>
-                    <fieldset id='options'>
-                    </fieldset>
-                    <button class="submit-button animated fadeInUp" id="voteButton">Vote</button>
-                </form>
-                <p>Total votes: <span id="totalVotes">{{poll.totalVotes}}</span></p>
-                <p id="message"></p>
-                <button class="submit-button animated fadeInUp" id='copyUrl'>Copy link</button>
-                <input class="option animated fadeInUp rounded-input copy-link" type="text" id="urlText" readonly>
-                <input type="text" id='pollOptionsData' value='{{json poll.options}}' hidden readonly>
-            </div>
-
-        </div>
-
+<section class="d-flex justify-cntent-center align-items-center main-section-background">
+    <div class="container main-section">
+        <h2 class="animated fadeInDown">{{poll.title}}</h2>
+        <time timedate="{{formatDate poll.dateCreated}}">Created: {{formatDate poll.dateCreated}}</time>
+        <p>ID: <span id="pollId">{{poll.id}}</span></p>
+        <form>
+            <fieldset id='options'>
+            </fieldset>
+            <button class="submit-button animated fadeInUp" id="voteButton">Vote</button>
+        </form>
+        <p>Total votes: <span id="totalVotes">{{poll.totalVotes}}</span></p>
+        <p id="message"></p>
+        <button class="submit-button animated fadeInUp" id='copyUrl'>Copy link</button>
+        <input class="option animated fadeInUp rounded-input" type="text" id="urlText" readonly>
+        <input type="text" id='pollOptionsData' value='{{json poll.options}}' hidden readonly>
     </div>
 </section>
 
