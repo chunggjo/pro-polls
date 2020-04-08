@@ -1,4 +1,4 @@
-<section class="d-flex justify-cntent-center align-items-center index main-section main-section-background main-section-width">
+<section class="d-flex justify-cntent-center align-items-center index main-section-background main-section-width">
     <div class="container main-section">
         <h2 class="animated fadeInDown">{{headerText}}</h2>
         <p class="animated fadeInDown">Enter poll ID to get started.</p>
@@ -6,13 +6,13 @@
             <input type="text" placeholder="Poll ID (e.g. 1)">
             <button class="input-button">Go</button>
         </form>
-
+        <p id="message"></p>
         {{#unless newUser}}
         <aside>
             <p>Your recently viewed polls:</p>
             <ul>
                 {{#each viewedPolls}}
-                    <li class="viewedPoll"><a href='/polls/{{this.id}}'>{{this.title}}</a></li>
+                <li class="viewedPoll"><a href='/polls/{{this.id}}'>{{this.title}}</a></li>
                 {{/each}}
             </ul>
         </aside>
