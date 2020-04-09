@@ -22,7 +22,7 @@ SESSION=keyboard cat
 
 ## Running tests:
 
-1. cd config && touch test.env
+1. Create test.env inside the config folder.
 2. Open test.env in a text editor and paste these lines:
 
 ```
