@@ -2,7 +2,7 @@
 
 Real-time voting app made with node.js, express.js, mongodb, mongoose, socket.io, and chart.js.
 
-### Steps to run:
+## Steps to run:
 
 1. Clone or download this repository.
 2. cd pro-polls
@@ -17,11 +17,10 @@ NODE_ENV=development
 SESSION=keyboard cat
 ```
 
-5. Install MongoDB if not already installed.
 6. Make sure mongod is running.
 7. npm run dev
 
-### Running tests:
+## Running tests:
 
 1. cd config && touch test.env
 2. Open test.env in a text editor and paste these lines:
