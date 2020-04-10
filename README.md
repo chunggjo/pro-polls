@@ -1,16 +1,35 @@
 # Pro Polls
+
 Real-time voting app made with node.js, express.js, mongodb, mongoose, socket.io, and chart.js.
 
-Steps to run:
-1. Clone or download this repository
-2. npm install
-3. Create a config folder with the file dev.env
-4. Include these lines
+## Steps to run:
+
+1. Clone or download this repository.
+2. cd pro-polls
+3. npm install
+4. mkdir config && cd config && touch dev.env
+5. Open dev.env in a text editor and paste these lines:
+
 ```
 PORT=3000
 MONGODB_URL=mongodb://127.0.0.1:27017/pro-polls-api
 NODE_ENV=development
 SESSION=keyboard cat
 ```
-5. Make sure mongod is running
-6. npm run dev
+
+6. Make sure mongod is running.
+7. npm run dev
+
+## Running tests:
+
+1. Create test.env inside the config folder.
+2. Open test.env in a text editor and paste these lines:
+
+```
+PORT=3000
+MONGODB_URL=mongodb://127.0.0.1:27017/pro-polls-api-test
+NODE_ENV=development
+SESSION=keyboard cat
+```
+
+3. npm run test
