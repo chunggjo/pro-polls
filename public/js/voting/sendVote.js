@@ -5,9 +5,7 @@ const socketio = io()
 
 voteForm.addEventListener('submit', e => {
 	let selectedOption = ''
-
 	e.preventDefault()
-
 	for (let i = 0; i < optionInputs.length; i++) {
 		if (optionInputs[i].checked) {
 			selectedOption = optionInputs[i].value
