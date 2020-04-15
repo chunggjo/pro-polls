@@ -1,48 +1,29 @@
 const request = require('supertest')
-const app = require('../src/apptest')
+const app = require('../src/server')
 const Poll = require('../src/models/poll')
 
 const pollOne = {
   title: 'Smackdown Vs Raw',
   options: [
-    { option: 'Raw', votes: 0 },
-    { option: 'Smackdown', votes: 0 },
+    {
+      option: 'Raw',
+    },
+    {
+      option: 'Smackdown',
+    },
   ],
-  totalVotes: 0,
-  dateCreated: new Date(),
 }
-/*
 beforeEach(async () => {
-   //await Poll.deleteMany()
-   await new Poll(pollOne).save()
+  await Poll.deleteMany()
+  Poll.counterReset('id', function (err) {})
+  await new Poll(pollOne).save()
 })
-/*afterEach(() => {
-    console.log('afterEach')
-})*/
 
 test('Should create a new poll', async () => {
-  const response = await request(app)
-    .post('/create')
-    .send({
-      title: 'Red or Blue',
-      options: [
-        {
-          option: 'Red',
-          votes: 0,
-        },
-        {
-          option: 'Blue',
-          votes: 0,
-        },
-      ],
-      totalVotes: 0,
-      dateCreated: new Date(),
-    })
-    .expect(201)
-
+  await request(app).post('/create').send(pollOne).expect(201)
   // assert that database was changed correctly
-  //const poll = await Poll.findById(response.body.poll_id)
-  //expect(poll).not.toBeNull()
+  // const poll = await Poll.findById(response.body.poll_id)
+  // expect(poll).not.toBeNull()
 })
 
 test('Should create existing poll', async () => {
@@ -64,14 +45,13 @@ test('Should fetch all polls', async () => {
 })
 
 test('Find a poll', async () => {
-  const poll_id = 877 //Replace this value with your existing id to test
-  const response = await request(app).get(`/polls/${poll_id}`).expect(200)
+  await request(app).get('/polls/1').expect(200)
 })
 
-//Figuring this one out still econn keeps getting refused only for this one
 test('Should update a poll', async () => {
-  const poll_id = 877 //Replace this value with your existing id to test
-  await request(app).patch(`polls/${poll_id}`).expect(200)
+  await request(app).patch('/polls/1').send({ option: 'Raw' }).expect(200)
+  const poll = await Poll.findOne({ id: 1 })
+  expect(poll.options[0].votes).toEqual(1)
 })
 
 test('Should not find a poll', async () => {
