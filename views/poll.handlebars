@@ -37,6 +37,7 @@
 <!-- End Graph Section -->
 
 <script>
+    // Generate poll form
     const poll = (function () {
         const options = JSON.parse(document.getElementById('pollOptionsData').value)
         const pollId = document.getElementById('pollId').textContent
@@ -55,11 +56,22 @@
     })()
     document.querySelector('#options').innerHTML = poll.html
     document.querySelector("input").checked = true
+
+    // Share url
+    const urlText = document.querySelector('#urlText')
+    urlText.value = window.location.href
+    copyUrl.addEventListener('click', () => {
+        urlText.select()
+        urlText.setSelectionRange(0, 99999)
+
+        document.execCommand('copy')
+
+        message.textContent = 'Link copied!'
+    })
 </script>
 
-<script src='/js/resources/jquery-3.4.1.min.js'></script>
-<script src='/js/resources/chart.min.js'></script>
-<script src='/js/voting/sendVote.js'></script>
-<script src='/js/voting/createChart.js'></script>
-<script src='/js/voting/chartCaption.js'></script>
-<script src='/js/utils/copyUrl.js'></script>
+<script src='/vendors/js/jquery-3.4.1.min.js'></script>
+<script src='/vendors/js/chart.min.js'></script>
+<script src='/resources/js/send-vote.js'></script>
+<script src='/resources/js/create-chart.js'></script>
+<script src='/resources/js/chart-caption.js'></script>
