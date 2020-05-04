@@ -35,6 +35,7 @@
     </div>
 </section>
 <!-- End Graph Section -->
+<script src='/vendors/js/jquery-3.4.1.min.js'></script>
 
 <script>
     // Generate poll form
@@ -68,9 +69,16 @@
 
         message.textContent = 'Link copied!'
     })
+
+    // Link preview
+    $.ajax({
+        url: "https://api.linkpreview.net?key=f7a8f49f09c9564fd1eeb5704a7e16d6&q=" + urlText,
+        success: function (result) {
+            console.log(result);
+        }
+    })
 </script>
 
-<script src='/vendors/js/jquery-3.4.1.min.js'></script>
 <script src='/vendors/js/chart.min.js'></script>
 <script src='/resources/js/send-vote.js'></script>
 <script src='/resources/js/create-chart.js'></script>
